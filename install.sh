@@ -12,34 +12,24 @@ set -e
 . $DOT_DIR/shell/tools.bash
 
 # Header
-echo "==============================="
-echo "Dotfiles Module Installer "
-echo "==============================="
-echo "Using dot files in: ${DOT_DIR}"
+print_main_module_header
 
 
 ## -------------------------------------------------------------
 ## Installation
 ## -------------------------------------------------------------
-echo
-echo "-------------------------------"
-echo "Creating links to binaries "
-echo "-------------------------------"
+print_header "Creating links to binaries"
 # dot_link_bin $MODULE_DIR """
-echo "Done!"
+print_status "Done!"
 
 
-echo
-echo "-------------------------------"
-echo "Creating links to config files "
-echo "-------------------------------"
+## -------------------------------------------------------------
+print_header "Creating links to config files"
 dot_link_config $MODULE_DIR ".local/share/applications/*.desktop"
 dot_link_config $MODULE_DIR ".local/share/icons/*.png"
 dot_link_config $MODULE_DIR ".local/share/wallpapers/*.png"
-echo "Done!"
+print_status "Done!"
 
 
-echo
-echo "-------------------------------"
-echo "All done! "
-echo "-------------------------------"
+# Footer
+print_main_module_footer
