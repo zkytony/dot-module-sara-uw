@@ -1,0 +1,16 @@
+[Desktop Entry]
+Comment=
+Exec=sshvnc sara_uw_dube
+Icon=video-display
+MimeType=
+Name=VNC SARA UW DUB-E
+NoDisplay=false
+Path[$e]=
+StartupNotify=true
+Terminal=0
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

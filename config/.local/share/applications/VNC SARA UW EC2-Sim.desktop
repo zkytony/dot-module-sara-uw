@@ -1,0 +1,16 @@
+[Desktop Entry]
+Comment=
+Exec=sshvnc sara_uw_ec2_sim
+Icon=video-display
+MimeType=
+Name=VNC SARA UW EC2 Sim
+NoDisplay=false
+Path[$e]=
+StartupNotify=true
+Terminal=0
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
