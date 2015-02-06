@@ -34,6 +34,8 @@ print_status "Done!"
 
 ## -------------------------------------------------------------
 print_header "Creating links to config files"
+dot_link_config $MODULE_DIR ".vnc/profiles/sara_uw_dube.vnc"
+dot_link_config $MODULE_DIR ".vnc/profiles/sara_uw_ec2_sim.vnc"
 dot_link_config $MODULE_DIR ".local/share/applications/*.desktop"
 dot_link_config $MODULE_DIR ".local/share/icons/*.png"
 dot_link_config $MODULE_DIR ".local/share/wallpapers/*.png"
