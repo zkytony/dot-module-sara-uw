@@ -23,7 +23,7 @@ echo
 echo "-------------------------------"
 echo "Installing basic packages"
 echo "-------------------------------"
-# sudo apt-get install ccache
+sudo apt-get install ccache
 
 
 echo
