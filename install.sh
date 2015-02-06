@@ -33,7 +33,11 @@ echo
 echo "-------------------------------"
 echo "Creating links to config files "
 echo "-------------------------------"
-# dot_link_config $MODULE_DIR ""
+for i in $MODULE_DIR/config/.local/share/applications/*.desktop
+do
+    i=$(basename "$i")
+    dot_link_config $MODULE_DIR ".local/share/applications/$i"
+done
 echo "Done!"
 
 
