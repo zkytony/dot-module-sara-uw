@@ -4,6 +4,7 @@
 ## General
 ## -------------------------------------------------------------
 MODULE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+TMP_DIR="$MODULE_DIR/tmp"
 
 # Interrupt the script on first error
 set -e
@@ -13,6 +14,14 @@ set -e
 
 # Header
 print_main_module_header
+
+
+## -------------------------------------------------------------
+## Dependencies
+## -------------------------------------------------------------
+print_header "Installing Ubuntu packages"
+sudo apt-get install ccache
+print_status "Done!"
 
 
 ## -------------------------------------------------------------
