@@ -1,9 +1,9 @@
 [connection]
-host=192.168.20.1 robot@sarauw.pronobis.pro
+host=192.168.20.1 robot@robot.dub-e.org
 port=5900
-proxyhost=robot@sarauw.pronobis.pro
+proxyhost=robot@robot.dub-e.org
 proxyport=24
-disp=192.168.20.1 robot@sarauw.pronobis.pro:24
+disp=192.168.20.1 robot@robot.dub-e.org:24
 
 [options]
 # parameters commented out with '#' indicate the default setting.
