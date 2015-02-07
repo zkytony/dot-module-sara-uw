@@ -12,6 +12,9 @@ set -e
 # Import tools
 . $DOT_DIR/shell/tools.bash
 
+# Check if not run as root
+check_not_root
+
 # Header
 print_main_module_header
 
