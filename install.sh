@@ -33,12 +33,16 @@ print_status "Done!"
 
 
 ## -------------------------------------------------------------
-print_header "Creating links to config files"
+print_header "Installing user-local config files"
+# VNC client
 dot_link_config $MODULE_DIR ".vnc/profiles/sara_uw_dube.vnc"
 dot_link_config $MODULE_DIR ".vnc/profiles/sara_uw_ec2_sim.vnc"
+# Shortcuts
 dot_link_config $MODULE_DIR ".local/share/applications/*.desktop"
+# Art
 dot_link_config $MODULE_DIR ".local/share/icons/*.png"
 dot_link_config $MODULE_DIR ".local/share/wallpapers/*.png"
+# Done
 print_status "Done!"
 
 
