@@ -24,7 +24,7 @@ print_main_module_header
 ## -------------------------------------------------------------
 
 ## -------------------------------------------------------------
-print_header "Installing Ubuntu packages"
+print_header "Installing basic Ubuntu packages"
 apt-get install ccache
 print_status "Done!"
 
