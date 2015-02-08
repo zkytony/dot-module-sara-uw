@@ -37,7 +37,7 @@ dot_link_config $DOT_MODULE_DIR ".vnc/profiles/sara_uw_ec2_sim.vnc"
 # Shortcuts
 dot_link_config $DOT_MODULE_DIR ".local/share/applications/*.desktop"
 # SSH
-dot_add_to_config $DOT_MODULE_DIR ".ssh/config" "# dot-module-sara-uw configuration begins here" "# dot-module-sara-uw configuration ends here"
+dot_prepend_to_config $DOT_MODULE_DIR ".ssh/config" "# dot-module-sara-uw configuration begins here" "# dot-module-sara-uw configuration ends here"
 # Art
 dot_link_config $DOT_MODULE_DIR ".local/share/icons/*.png"
 dot_link_config $DOT_MODULE_DIR ".local/share/wallpapers/*.png"
