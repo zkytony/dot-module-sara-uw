@@ -53,6 +53,19 @@ print_status "Done!"
 
 
 ## -------------------------------------------------------------
+print_header "Installing EC2 API tools..."
+print_status "Removing old tools..."
+rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools*"
+print_status "\nDownloading new tools..."
+cd ${TMP_DIR}
+wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
+print_status "\nUnpacking the tools..."
+
+print_status "Done!"
+
+
+
+## -------------------------------------------------------------
 ## Finishing
 ## -------------------------------------------------------------
 print_main_module_footer
