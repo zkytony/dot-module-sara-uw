@@ -54,13 +54,19 @@ print_status "Done!"
 
 ## -------------------------------------------------------------
 print_header "Installing EC2 API tools..."
-print_status "Removing old tools..."
-rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools*"
-print_status "\nDownloading new tools..."
+print_status "Downloading..."
 cd ${TMP_DIR}
+rm -rf ec2-api-tools.zip
 wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
-print_status "\nUnpacking the tools..."
-
+print_status "\nObtaining version..."
+ec2_ver=$(unzip -v ec2-api-tools.zip | grep -G "ec2-api-tools-[0-9\.]*/$")
+ec2_ver=${ec2_ver##*ec2-api-tools-}
+ec2_ver=${ec2_ver%%/*}
+print_status "\nInstalling verision $ec2_ver..."
+rm -rf ec2-api-tools-$ec2_ver
+unzip -q ec2-api-tools.zip
+rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
+mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 print_status "Done!"
 
 
