@@ -3,7 +3,12 @@
 ## -------------------------------------------------------------
 ## General
 ## -------------------------------------------------------------
+# Set paths
 export DOT_MODULE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+if [ -z "$DOT_DIR" ]
+then
+   export DOT_DIR=$( readlink -f $DOT_MODULE_DIR/../.. )
+fi
 TMP_DIR="$DOT_MODULE_DIR/tmp"
 
 # Interrupt the script on first error
