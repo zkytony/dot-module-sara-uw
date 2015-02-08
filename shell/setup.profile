@@ -4,4 +4,5 @@
 ## Can be executed with dash
 ## --------------------------------------------
 
-export SARA_DIR="$HOME/sara"
+# Load sara root from the config file
+eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"

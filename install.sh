@@ -10,6 +10,8 @@ then
    export DOT_DIR=$( readlink -f $DOT_MODULE_DIR/../.. )
 fi
 TMP_DIR="$DOT_MODULE_DIR/tmp"
+# Load sara root from the config file
+eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
 
 # Interrupt the script on first error
 set -e
