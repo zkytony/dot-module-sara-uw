@@ -5,7 +5,7 @@ SARA Project dot files module.
 
 Install the main dot package:
 ```
-git clone https://github.com/pronobis/dot.git ~/.dot
+git clone git@github.com:pronobis/dot.git ~/.dot
 cd ~/.dot
 ./install.sh
 ```
