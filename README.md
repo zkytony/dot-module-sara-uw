@@ -17,7 +17,7 @@ sudo -EH ./install.sh
 
 Clone this package:
 ```
-git clone git@github.com:pronobis/dot-module-sara-uw.git ~/.dot/modules/50_dot-module-sara-uw
+git clone --recursive git@github.com:pronobis/dot-module-sara-uw.git ~/.dot/modules/50_dot-module-sara-uw
 cd ~/.dot/modules/50_dot-module-sara-uw
 ```
 
