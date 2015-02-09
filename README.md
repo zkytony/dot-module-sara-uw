@@ -25,7 +25,7 @@ If you wish, you can now modify the path where sara stuff will be installed in `
 
 If installing for the first time on a computer for which you have root access, run:
 ```
-sudo -EH ./install.sh
+sudo -EH ./install-sys.sh
 ```
 
 Then, install user-local config:
