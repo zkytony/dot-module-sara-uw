@@ -3,6 +3,9 @@
 ## This file is executed for all bash sessions
 ## --------------------------------------------
 
+# Load sara root from the config file in case the login shell was not yet re-run
+eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
+
 ## ---------------------------
 ## Add private key to SSH Agent
 ## to be served to other machines we SSH to

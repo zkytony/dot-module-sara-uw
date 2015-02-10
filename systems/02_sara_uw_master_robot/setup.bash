@@ -1,5 +1,8 @@
 # SARA
-source $SARA_ROOT/sara/devel/setup.bash
+if [ -d $SARA_ROOT ]
+then
+    source $SARA_ROOT/sara/devel/setup.bash
+fi
 
 # ROS configuration
 export ROSCONSOLE_FORMAT='[${severity}] [${node}@${function}:${line}]: ${message}'
