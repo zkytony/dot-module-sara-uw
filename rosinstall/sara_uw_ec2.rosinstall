@@ -1,0 +1,29 @@
+- git:
+    uri: git@github.com:pronobis/sara_robots.git
+    local-name: sara_robots
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_mapping.git
+    local-name: sara_mapping
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_uw.git
+    local-name: sara_uw
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_processing.git
+    local-name: sara_processing
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_categorical.git
+    local-name: sara_categorical
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_world.git
+    local-name: sara_world
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_libs.git
+    local-name: sara_libs
+    version: master
+

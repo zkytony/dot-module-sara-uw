@@ -1,0 +1,15 @@
+# Needed until https://github.com/mjyc/ros_comm/commit/782dbe128aa9c92243a429b1353a8c090e2aab87 in upstream package
+- git:
+    uri: https://github.com/mjyc/ros_comm.git
+    local-name: ros_comm
+    version: indigo-devel
+# Needed until https://github.com/ros/roslint/commit/a7bcfd2cf975ab2cb1920b290bf3fcd05c476fc1 in upstream package
+- git:
+    uri: https://github.com/ros/roslint.git
+    local-name: roslint
+    version: master
+# Needed until https://github.com/mjyc/rqt_common_plugins/commit/a1323714a0f553c24daaec1c7bbc804022867f5e in upstream package
+- git:
+    uri: https://github.com/ros-visualization/rqt_common_plugins.git
+    local-name: rqt_common_plugins
+    version: groovy-devel

@@ -1,0 +1,49 @@
+- git:
+    uri: git@github.com:pronobis/sara_scitos.git
+    local-name: sara_scitos
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_drivers.git
+    local-name: sara_drivers
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_robots.git
+    local-name: sara_robots
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_teleop.git
+    local-name: sara_teleop
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_mapping.git
+    local-name: sara_mapping
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_uw.git
+    local-name: sara_uw
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_simulation.git
+    local-name: sara_simulation
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_actions.git
+    local-name: sara_actions
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_hri.git
+    local-name: sara_hri
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_tools.git
+    local-name: sara_tools
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_processing.git
+    local-name: sara_processing
+    version: master
+- git:
+    uri: git@github.com:pronobis/sara_libs.git
+    local-name: sara_libs
+    version: master
+
