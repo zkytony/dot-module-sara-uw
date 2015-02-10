@@ -73,9 +73,8 @@ then
     print_status "Your rosdep and wstool are already installed system-wide! Doing nothing!"
 else
     pip install -U rosdep rosinstall_generator wstool rosinstall
+    print_status "Done!"
 fi
-# Done!
-print_status "Done!"
 
 
 ## -------------------------------------------------------------
