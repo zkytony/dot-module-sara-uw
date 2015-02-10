@@ -29,6 +29,11 @@ print_main_module_header
 ## -------------------------------------------------------------
 
 ## -------------------------------------------------------------
+print_header "Running apt-get update"
+apt-get update
+print_status "Done!"
+
+## -------------------------------------------------------------
 print_header "Installing basic Ubuntu packages"
 apt-get install ccache
 print_status "Done!"
