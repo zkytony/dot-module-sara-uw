@@ -166,18 +166,62 @@ then
     print_status "Existing installation exists. Updating..."
     rm "$SARA_ROOT/rosjava_ws/src/.rosinstall"
 fi
+#
 print_status "\nInitializing workspace..."
 mkdir -p "$SARA_ROOT/rosjava_ws/src"
 cd "$SARA_ROOT/rosjava_ws"
 wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_rosjava.rosinstall"
+#
 print_status "\nChecking for missing dependencies..."
 source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
 rosdep install --from-paths src -i -y
+#
 print_status "\nCompiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release
 # Done
 print_status "Done!"
 
+
+## -------------------------------------------------------------
+print_header "Selecting SARA setup"
+configs=""
+for i in ${DOT_MODULE_DIR}/rosinstall/sara_uw*.rosinstall
+do
+    i=${i##*/rosinstall/}
+    n=${i##sara_}
+    n=${n%%.rosinstall}
+    configs="$configs $i $n"
+done
+rifile=$(whiptail --title "Select SARA System Setup" --menu "" 20 50 10 ${configs} 3>&2 2>&1 1>&3)
+unset configs
+if [ -z "$rifile" ]
+then
+   print_error "No configuration selected! Aborting!"
+fi
+print_status "Using system setup in ${rifile}."
+
+
+## -------------------------------------------------------------
+print_header "Installing SARA packages"
+if [ -f "$SARA_ROOT/sara/src/.rosinstall" ]
+then
+    print_status "Existing installation exists. Updating..."
+    rm "$SARA_ROOT/sara/src/.rosinstall"
+fi
+#
+print_status "\nInitializing workspace..."
+mkdir -p "$SARA_ROOT/sara_ws/src"
+cd "$SARA_ROOT/sara_ws"
+wstool init -j4 "$SARA_ROOT/sara_ws/src" "$DOT_MODULE_DIR/rosinstall/${rifile}"
+#
+print_status "\nChecking for missing dependencies..."
+source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+rosdep install --from-paths src -i -y
+#
+print_status "\nCompiling..."
+catkin_make -DCMAKE_BUILD_TYPE=Release
+# Done
+print_status "Done!"
 
 
 ## -------------------------------------------------------------
