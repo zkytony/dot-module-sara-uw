@@ -69,15 +69,62 @@ rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 print_status "Done!"
 
+
 ## -------------------------------------------------------------
 print_header "Updating rosdep"
 rosdep update
 print_status "Done!"
 
+
+## -------------------------------------------------------------
+print_header "Checking SARA path"
+if [ -z "$SARA_ROOT" ]
+then
+    print_error "SARA_ROOT environment variable is not set!"
+    exit 1
+fi
+print_status "Done!"
+
+
 ## -------------------------------------------------------------
 print_header "Installing custom ROS packages"
-
+if [ -f "$SARA_ROOT/ros_custom_ws/src/.rosinstall" ]
+then
+    print_status "Existing installation exists. Updating..."
+    rm "$SARA_ROOT/ros_custom_ws/src/.rosinstall"
+fi
+print_status "\nInitializing workspace..."
+mkdir -p "$SARA_ROOT/ros_custom_ws/src"
+cd "$SARA_ROOT/ros_custom_ws"
+wstool init -j4 "$SARA_ROOT/ros_custom_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_ros_custom.rosinstall"
+print_status "\nChecking for missing dependencies..."
+source /opt/ros/indigo/setup.bash
+rosdep install --from-paths src -i -y
+print_status "\nCompiling..."
+catkin_make -DCMAKE_BUILD_TYPE=Release
+# Done
 print_status "Done!"
+
+
+## -------------------------------------------------------------
+print_header "Installing ROSJava packages"
+if [ -f "$SARA_ROOT/rosjava_ws/src/.rosinstall" ]
+then
+    print_status "Existing installation exists. Updating..."
+    rm "$SARA_ROOT/rosjava_ws/src/.rosinstall"
+fi
+print_status "\nInitializing workspace..."
+mkdir -p "$SARA_ROOT/rosjava_ws/src"
+cd "$SARA_ROOT/rosjava_ws"
+wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_rosjava.rosinstall"
+print_status "\nChecking for missing dependencies..."
+source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+rosdep install --from-paths src -i -y
+print_status "\nCompiling..."
+catkin_make -DCMAKE_BUILD_TYPE=Release
+# Done
+print_status "Done!"
+
 
 
 ## -------------------------------------------------------------
