@@ -118,7 +118,8 @@ else
         wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
         #
         print_status "\nChecking for missing dependencies..."
-        rosdep install --from-paths src -y -i -r --os ubuntu:trusty
+        # The following will result in an error about rosdep etc. so we add || true
+        rosdep install --from-paths src -y -i -r --os ubuntu:trusty || true
         #
         print_status "\nCompiling..."
         ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release
