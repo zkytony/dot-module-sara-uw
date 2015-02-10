@@ -118,7 +118,7 @@ else
         wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
         #
         print_status "\nChecking for missing dependencies..."
-        # The following will result in an error about rosdep etc. so we add || true
+        # The following will result in an error about rosdep in utopic etc. so we add || true
         rosdep install --from-paths src -y -i -r --os ubuntu:trusty || true
         #
         print_status "\nCompiling..."
@@ -152,7 +152,8 @@ then
 else
     source "$SARA_ROOT/ros_ws/install_isolated/setup.bash"
 fi
-rosdep install --from-paths src -i -y
+# The following will result in an error about rosdep in utopic etc. so we add || true
+rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 print_status "\nCompiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release
 # Done
@@ -174,7 +175,8 @@ wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_ros
 #
 print_status "\nChecking for missing dependencies..."
 source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
-rosdep install --from-paths src -i -y
+# The following will result in an error about rosdep in utopic etc. so we add || true
+rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
 print_status "\nCompiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release
@@ -196,32 +198,55 @@ rifile=$(whiptail --title "Select SARA System Setup" --menu "" 20 50 10 ${config
 unset configs
 if [ -z "$rifile" ]
 then
-   print_error "No configuration selected! Aborting!"
+    print_error "No configuration selected! Aborting!"
+    exit 1
 fi
 print_status "Using system setup in ${rifile}."
+mkdir -p "$SARA_ROOT/sara_ws"
+cp "$DOT_MODULE_DIR/rosinstall/${rifile}" "$SARA_ROOT/sara_ws/${rifile}"
 
 
 ## -------------------------------------------------------------
-print_header "Installing SARA packages"
-if [ -f "$SARA_ROOT/sara/src/.rosinstall" ]
+print_header "Updating repositories to use user's forks"
+# Detect github username
+github_info=$(ssh git@github.com 2>&1 | grep -G "Hi .*! You've successfully authenticated, but GitHub does not provide shell access.")
+github_user=${github_info#Hi }
+github_user=${github_user%%! You*}
+if [ -z "$github_user" ]
 then
-    print_status "Existing installation exists. Updating..."
-    rm "$SARA_ROOT/sara/src/.rosinstall"
+    print_error "Your github username could not be identified."
+    print_error "Your won't be able to access SARA packages. Aborting!"
+    exit 1
 fi
-#
-print_status "\nInitializing workspace..."
-mkdir -p "$SARA_ROOT/sara_ws/src"
-cd "$SARA_ROOT/sara_ws"
-wstool init -j4 "$SARA_ROOT/sara_ws/src" "$DOT_MODULE_DIR/rosinstall/${rifile}"
-#
-print_status "\nChecking for missing dependencies..."
-source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
-rosdep install --from-paths src -i -y
-#
-print_status "\nCompiling..."
-catkin_make -DCMAKE_BUILD_TYPE=Release
+print_status "Your GitHub username has been identified as: $github_user"
+print_status "Replacing generic branches with your own forks..."
+
 # Done
 print_status "Done!"
+
+
+# ## -------------------------------------------------------------
+# print_header "Installing SARA packages"
+# if [ -f "$SARA_ROOT/sara/src/.rosinstall" ]
+# then
+#     print_status "Existing installation exists. Updating..."
+#     rm "$SARA_ROOT/sara/src/.rosinstall"
+# fi
+# #
+# print_status "\nInitializing workspace..."
+# mkdir -p "$SARA_ROOT/sara_ws/src"
+# cd "$SARA_ROOT/sara_ws"
+# wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
+# #
+# print_status "\nChecking for missing dependencies..."
+# source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+# The following will result in an error about rosdep in utopic etc. so we add || true
+# rosdep install --from-paths src -i -y
+# #
+# print_status "\nCompiling..."
+# catkin_make -DCMAKE_BUILD_TYPE=Release
+# # Done
+# print_status "Done!"
 
 
 ## -------------------------------------------------------------
