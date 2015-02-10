@@ -62,7 +62,7 @@ then
     # Done!
     print_status "Done!"
 else
-    print_warning "You are not running Ubuntu 14.04 Trusty. Your ROS will be installed from source."
+    print_warning "You are not running Ubuntu 14.04 Trusty. Your ROS will be installed from source in the install.sh."
 fi
 
 

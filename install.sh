@@ -87,6 +87,53 @@ print_status "Done!"
 
 
 ## -------------------------------------------------------------
+print_header "Installing ROS"
+if [ -f /opt/ros/indigo/setup.bash ]
+then
+    print_status "Your ROS is already installed system-wide! Doing nothing!"
+else
+    if [ "$(lsb_release -cs)" == "utopic" ]
+    then
+        print_status "Installing ROS from sources..."
+        if [ -f "$SARA_ROOT/ros_ws/src/.rosinstall" ]
+        then
+            print_status "Existing ROS source installation exists. Updating..."
+            rm "$SARA_ROOT/ros_ws/src/.rosinstall"
+        fi
+        # Clean all existing ros env vars to start with clean slate
+        unset ROS_ROOT
+        unset ROS_PACKAGE_PATH
+        unset ROSCONSOLE_CONFIG_FILE
+        unset ROS_TEST_RESULTS_DIR
+        unset ROS_MAVEN_DEPLOYMENT_REPOSITORY
+        unset ROS_MAVEN_PATH
+        unset ROS_MAVEN_REPOSITORY
+        unset ROS_DISTRO
+        unset ROS_ETC_DIR
+        #
+        print_status "\nInitializing workspace..."
+        mkdir -p "$SARA_ROOT/ros_ws/src"
+        cd "$SARA_ROOT/ros_ws"
+        rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera warehouse_ros hokuyo_node joystick_drivers robot_localization --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
+        wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
+        #
+        print_status "\nChecking for missing dependencies..."
+        rosdep install --from-paths src -y -i -r --os ubuntu:trusty
+        #
+        print_status "\nCompiling..."
+        ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release
+        # Done
+        print_status "Done!"
+    else
+        print_error "You are not on Ubuntu Utopic 14.10 and have no system-wide ROS installation."
+        print_info "You could have forgotten to run install-sys.sh which installs ROS on Trusty."
+        print_info "Other systems than Ubuntu Trusty and Utopic are NOT supported!"
+        exit 1
+    fi
+fi
+
+
+## -------------------------------------------------------------
 print_header "Installing custom ROS packages"
 if [ -f "$SARA_ROOT/ros_custom_ws/src/.rosinstall" ]
 then
@@ -98,7 +145,12 @@ mkdir -p "$SARA_ROOT/ros_custom_ws/src"
 cd "$SARA_ROOT/ros_custom_ws"
 wstool init -j4 "$SARA_ROOT/ros_custom_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_ros_custom.rosinstall"
 print_status "\nChecking for missing dependencies..."
-source /opt/ros/indigo/setup.bash
+if [ -f /opt/ros/indigo/setup.bash ]
+then
+    source /opt/ros/indigo/setup.bash
+else
+    source "$SARA_ROOT/ros_ws/install_isolated/setup.bash"
+fi
 rosdep install --from-paths src -i -y
 print_status "\nCompiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release
