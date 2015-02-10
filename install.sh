@@ -53,7 +53,7 @@ print_status "Done!"
 
 
 ## -------------------------------------------------------------
-print_header "Installing EC2 API tools..."
+print_header "Installing EC2 API tools"
 print_status "Downloading..."
 cd ${TMP_DIR}
 rm -rf ec2-api-tools.zip
