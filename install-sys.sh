@@ -35,7 +35,7 @@ print_status "Done!"
 
 ## -------------------------------------------------------------
 print_header "Installing basic Ubuntu packages"
-apt-get install ccache
+apt-get install build-essential ccache cmake python-setuptools python3-setuptools
 print_status "Done!"
 
 
@@ -64,6 +64,18 @@ then
 else
     print_warning "You are not running Ubuntu 14.04 Trusty. Your ROS will be installed from source in the install.sh."
 fi
+
+
+## -------------------------------------------------------------
+print_header "Installing rosdep and wstool"
+if [[ -e /usr/bin/rosdep && -e /usr/bin/wstool ]]
+then
+    print_status "Your rosdep and wstool are already installed system-wide! Doing nothing!"
+else
+    pip install -U rosdep rosinstall_generator wstool rosinstall
+fi
+# Done!
+print_status "Done!"
 
 
 ## -------------------------------------------------------------
