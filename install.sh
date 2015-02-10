@@ -69,6 +69,15 @@ rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 print_status "Done!"
 
+## -------------------------------------------------------------
+print_header "Updating rosdep"
+rosdep update
+print_status "Done!"
+
+## -------------------------------------------------------------
+print_header "Installing custom ROS packages"
+
+print_status "Done!"
 
 
 ## -------------------------------------------------------------
