@@ -1,7 +1,7 @@
 # SARA
 if [ -d $SARA_ROOT ]
 then
-    source $SARA_ROOT/sara/devel/setup.bash
+    source $SARA_ROOT/sara_ws/devel/setup.bash
 fi
 
 # ROS configuration
