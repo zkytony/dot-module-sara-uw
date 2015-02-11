@@ -219,34 +219,45 @@ then
     exit 1
 fi
 print_status "Your GitHub username has been identified as: $github_user"
-print_status "Replacing generic branches with your own forks..."
 
+if whiptail --yesno "Have you created your own forks of all SARA repositories for user $github_user?" 8 50
+then
+    print_status "Replacing generic branches with your own forks..."
+    if [ "$github_user" == "pronobis" ]
+    then
+        print_status "Using the pronobis username quirk!"
+        sed -i 's/master/pronobis/g' "$SARA_ROOT/sara_ws/${rifile}"
+    else
+        sed -i "s/pronobis/${github_user}/g" "$SARA_ROOT/sara_ws/${rifile}"
+    fi
+    print_status "Done!"
+else
+    whiptail --msgbox "You MUST have your own forks of SARA code if you plan to contribute to the system! If you choose not to fork the code DO NOT push anything to the master repositories! If you change your mind and make the forks, run this installation again!" 11 60
+fi
+
+
+## -------------------------------------------------------------
+print_header "Installing SARA packages"
+if [ -f "$SARA_ROOT/sara/src/.rosinstall" ]
+then
+    print_status "Existing installation exists. Updating..."
+    rm "$SARA_ROOT/sara/src/.rosinstall"
+fi
+#
+print_status "\nInitializing workspace..."
+mkdir -p "$SARA_ROOT/sara_ws/src"
+cd "$SARA_ROOT/sara_ws"
+wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
+#
+print_status "\nChecking for missing dependencies..."
+source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+The following will result in an error about rosdep in utopic etc. so we add || true
+rosdep install --from-paths src -i -y
+#
+print_status "\nCompiling..."
+catkin_make -DCMAKE_BUILD_TYPE=Release
 # Done
 print_status "Done!"
-
-
-# ## -------------------------------------------------------------
-# print_header "Installing SARA packages"
-# if [ -f "$SARA_ROOT/sara/src/.rosinstall" ]
-# then
-#     print_status "Existing installation exists. Updating..."
-#     rm "$SARA_ROOT/sara/src/.rosinstall"
-# fi
-# #
-# print_status "\nInitializing workspace..."
-# mkdir -p "$SARA_ROOT/sara_ws/src"
-# cd "$SARA_ROOT/sara_ws"
-# wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
-# #
-# print_status "\nChecking for missing dependencies..."
-# source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
-# The following will result in an error about rosdep in utopic etc. so we add || true
-# rosdep install --from-paths src -i -y
-# #
-# print_status "\nCompiling..."
-# catkin_make -DCMAKE_BUILD_TYPE=Release
-# # Done
-# print_status "Done!"
 
 
 ## -------------------------------------------------------------
