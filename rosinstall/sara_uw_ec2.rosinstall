@@ -34,3 +34,7 @@
     uri: git@github.com:pronobis/sara_drivers.git
     local-name: sara_drivers
     version: master
+- git:
+    uri: git@github.com:pronobis/sara_tools.git
+    local-name: sara_tools
+    version: master
