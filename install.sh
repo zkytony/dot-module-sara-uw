@@ -238,10 +238,10 @@ fi
 
 ## -------------------------------------------------------------
 print_header "Installing SARA packages"
-if [ -f "$SARA_ROOT/sara/src/.rosinstall" ]
+if [ -f "$SARA_ROOT/sara_ws/src/.rosinstall" ]
 then
     print_status "Existing installation exists. Updating..."
-    rm "$SARA_ROOT/sara/src/.rosinstall"
+    rm "$SARA_ROOT/sara_ws/src/.rosinstall"
 fi
 #
 print_status "\nInitializing workspace..."
@@ -250,7 +250,7 @@ cd "$SARA_ROOT/sara_ws"
 wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
 #
 print_status "\nChecking for missing dependencies..."
-source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+source "$SARA_ROOT/rosjava_ws/devel/setup.bash"
 # The following will result in an error about rosdep in utopic etc. so we add || true
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
