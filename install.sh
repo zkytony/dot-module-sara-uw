@@ -251,8 +251,8 @@ wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
 #
 print_status "\nChecking for missing dependencies..."
 source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
-The following will result in an error about rosdep in utopic etc. so we add || true
-rosdep install --from-paths src -i -y
+# The following will result in an error about rosdep in utopic etc. so we add || true
+rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
 print_status "\nCompiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release
