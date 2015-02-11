@@ -219,7 +219,8 @@ then
     exit 1
 fi
 print_status "Your GitHub username has been identified as: $github_user"
-
+#
+use_personal_forks=""
 if whiptail --yesno "Have you created your own forks of all SARA repositories for user $github_user?" 8 50
 then
     print_status "Replacing generic branches with your own forks..."
@@ -230,6 +231,7 @@ then
     else
         sed -i "s/pronobis/${github_user}/g" "$SARA_ROOT/sara_ws/${rifile}"
     fi
+    use_personal_forks="1"
     print_status "Done!"
 else
     whiptail --msgbox "You MUST have your own forks of SARA code if you plan to contribute to the system! If you choose not to fork the code DO NOT push anything to the master repositories! If you change your mind and make the forks, run this installation again!" 11 60
@@ -258,6 +260,21 @@ print_status "\nCompiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release
 # Done
 print_status "Done!"
+
+
+## -------------------------------------------------------------
+source "$SARA_ROOT/sara_ws/devel/setup.bash"
+
+
+## -------------------------------------------------------------
+if [ -n "$use_personal_forks" ]
+then
+   print_header "Adding upstream remotes to the SARA repos"
+   cd "$SARA_ROOT/sara_ws/src"
+   rosrun sara_tools_git add_upstream
+   # Done
+   print_status "Done!"
+fi
 
 
 ## -------------------------------------------------------------
