@@ -26,4 +26,7 @@
     uri: git@github.com:pronobis/sara_libs.git
     local-name: sara_libs
     version: master
-
+- git:
+    uri: git@github.com:pronobis/sara_simulation.git
+    local-name: sara_simulation
+    version: master
