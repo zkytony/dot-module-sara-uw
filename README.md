@@ -21,7 +21,7 @@ git clone --recursive git@github.com:pronobis/dot-module-sara-uw.git ~/.dot/modu
 cd ~/.dot/modules/50_dot-module-sara-uw
 ```
 
-If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`. Now, choose the system to be SARA Local using the `sys` command.
+If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`.
 
 If installing for the first time on a computer for which you have root access, run:
 ```
@@ -38,3 +38,5 @@ In order to use EC2 API tools, you need to add your personal keys to your `~/.ba
 export AWS_ACCESS_KEY=<access_key>
 export AWS_SECRET_KEY=<secret_key>
 ```
+
+Now, re-login and chose the system you want using the `sys` command.
