@@ -28,6 +28,8 @@ If installing for the first time on a computer for which you have root access, r
 sudo -EH ./install-sys.sh
 ```
 
+Now, choose the system to be SARA Local using the `sys` command.
+
 Then, install user-local config:
 ```
 ./install.sh
