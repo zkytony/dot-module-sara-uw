@@ -21,14 +21,12 @@ git clone --recursive git@github.com:pronobis/dot-module-sara-uw.git ~/.dot/modu
 cd ~/.dot/modules/50_dot-module-sara-uw
 ```
 
-If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`.
+If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`. Now, choose the system to be SARA Local using the `sys` command.
 
 If installing for the first time on a computer for which you have root access, run:
 ```
 sudo -EH ./install-sys.sh
 ```
-
-Now, choose the system to be SARA Local using the `sys` command.
 
 Then, install user-local config:
 ```
