@@ -240,6 +240,19 @@ fi
 
 ## -------------------------------------------------------------
 print_header "Installing SARA packages"
+#
+# MIRA configuration
+if [ -f /opt/MIRA/scripts/mirabash ]
+then
+    print_status "Detected MIRA. Configuring MIRA environment..."
+    export MIRA_PATH=/opt/MIRA:/opt/MIRA-commercial
+    export LD_LIBRARY_PATH=/opt/MIRA/lib:${LD_LIBRARY_PATH}
+    export PATH=/opt/MIRA/bin:${PATH}
+    export MIRA_PATH=/opt/MIRA-commercial:${MIRA_PATH}
+    export LD_LIBRARY_PATH=/opt/MIRA-commercial/lib:${LD_LIBRARY_PATH}
+    source /opt/MIRA/scripts/mirabash
+fi
+#
 if [ -f "$SARA_ROOT/sara_ws/src/.rosinstall" ]
 then
     print_status "Existing installation exists. Updating..."
