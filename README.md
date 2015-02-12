@@ -10,7 +10,7 @@ cd ~/.dot
 ./install.sh
 ```
 
-[Single user setup only] If installing for the first time on a computer for which you have root access, run:
+**[Single user setup only]** If installing for the first time on a computer for which you have root access, run:
 ```
 sudo -EH ./install.sh
 ```
@@ -28,7 +28,7 @@ If installing for the first time on a computer for which you have root access, r
 sudo -EH ./install-sys.sh
 ```
 
-[Single user setup only] Then, install user-local config:
+**[Single user setup only]** Then, install user-local config:
 ```
 ./install.sh
 ```
