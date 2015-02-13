@@ -20,8 +20,28 @@ export EC2_HOME=${DOT_MODULE_DIR}/opt/ec2-api-tools
 export PATH=$PATH:${DOT_MODULE_DIR}/opt/ec2-api-tools/bin
 # URL
 export EC2_URL=https://ec2.us-west-2.amazonaws.com
-# Aliases
-alias ec2-status="ec2-describe-instance-status -AH | awk '{print \$2 \"\\t\" \$4}'"
+# Get status
+function ec2-status
+{
+    info=$( ec2-describe-instances --show-empty-fields )
+    tags=( $( echo "$info" | grep TAG | grep Name ) )
+    sedcmd=""
+    for i in "${tags[@]}"
+    do
+        id=$( echo $i | sed 's/\(.*instance[ \t]*\)\([^ \t]*\)\([ \t]*.*\)/\2/' )
+        name=$( echo $i | sed 's/\(.*Name[ \t]*\)\(.*\)/\2/' )
+        name=$( printf "%-20s" "$name" )
+        sedcmd="$sedcmd -e 's/\($id\)/\1 | $name/'"
+    done
+    all=$( echo "$info" | grep INSTANCE | awk '{print $2 " | " $6}' | eval "sed $sedcmd" )
+
+    print_status "Running instances:"
+    echo "$all" | grep --color=never running
+    echo
+    print_status "Other instances:"
+    echo "$all" | grep -v --color=never running
+}
+
 
 ## ---------------------------
 ## Java settings
