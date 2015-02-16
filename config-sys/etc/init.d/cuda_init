@@ -22,10 +22,17 @@ case "$1" in
         N=`expr $N3D + $NVGA - 1`
 
         for i in `seq 0 $N`; do
-            mknod -m 666 /dev/nvidia$i c 195 $i;
+            if [ "$success" -eq 0 ]; then
+                mknod -m 666 /dev/nvidia$i c 195 $i;
+                success=$?
+            fi
         done
 
-        mknod -m 666 /dev/nvidiactl c 195 255
+        if [ "$success" -eq 0 ]; then
+            mknod -m 666 /dev/nvidiactl c 195 255
+            success=$?
+        fi
+
     else
         log_failure_msg "No NVidia card or module found! Doing nothing!"
     fi
