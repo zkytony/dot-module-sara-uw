@@ -13,28 +13,44 @@ case "$1" in
     log_begin_msg "Initializing CUDA..."
 
     # Try loading nvidia module
-    /sbin/modprobe nvidia 2> /dev/zero
+    /sbin/modprobe nvidia
     success=$?
+
     if [ "$success" -eq 0 ]; then
         # Count the number of NVIDIA controllers found.
         N3D=`/usr/bin/lspci | grep -i NVIDIA | grep "3D controller" | wc -l`
         NVGA=`/usr/bin/lspci | grep -i NVIDIA | grep "VGA compatible controller" | wc -l`
         N=`expr $N3D + $NVGA - 1`
 
-        for i in `seq 0 $N`; do
+        if (( $N >= 0 ))
+        then
+            for i in `seq 0 $N`; do
+                if [ "$success" -eq 0 ]; then
+                    mknod -m 666 /dev/nvidia$i c 195 $i;
+                    success=$?
+                fi
+            done
+
             if [ "$success" -eq 0 ]; then
-                mknod -m 666 /dev/nvidia$i c 195 $i;
+                mknod -m 666 /dev/nvidiactl c 195 255
                 success=$?
             fi
-        done
 
-        if [ "$success" -eq 0 ]; then
-            mknod -m 666 /dev/nvidiactl c 195 255
-            success=$?
+            if [ "$success" -eq 0 ]; then
+                modprobe nvidia-uvm
+                success=$?
+            fi
+
+            if [ "$success" -eq 0 ]; then
+                mknod -m 666 /dev/nvidia-uvm c 251 0
+                success=$?
+            fi
+        else
+            log_failure_msg "No NVidia devices found! Doing nothing!"
+            success=1
         fi
-
     else
-        log_failure_msg "No NVidia card or module found! Doing nothing!"
+        log_failure_msg "Cannot load nvidia module! Doing nothing!"
     fi
     log_end_msg $success
     ;;
