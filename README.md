@@ -5,7 +5,7 @@ SARA Project dot files module.
 
 Please note that the steps marked with **[Single user setup only]** should only be performed on your local machine over which you have complete control. Do not perform those steps on SARA servers!
 
-1. Install the main dot package:
+1. Install the [main dot package](https://github.com/pronobis/dot):
     ```
 git clone git@github.com:pronobis/dot.git ~/.dot
 cd ~/.dot
