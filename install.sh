@@ -115,7 +115,10 @@ else
         mkdir -p "$SARA_ROOT/ros_ws/src"
         cd "$SARA_ROOT/ros_ws"
         rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera warehouse_ros hokuyo_node joystick_drivers robot_localization --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
-        wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
+        # The true is needed in order to pass through an error that might happen when the tar package
+        # versions are updated. Then wstool update will deal with that problem.
+        wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall" || true
+        wstool update --delete-changed-uris -t "$SARA_ROOT/ros_ws/src"
         #
         print_status "\nChecking for missing dependencies..."
         # The following will result in an error about rosdep in utopic etc. so we add || true
@@ -144,7 +147,10 @@ fi
 print_status "\nInitializing workspace..."
 mkdir -p "$SARA_ROOT/ros_custom_ws/src"
 cd "$SARA_ROOT/ros_custom_ws"
-wstool init -j4 "$SARA_ROOT/ros_custom_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_ros_custom.rosinstall"
+# The true is needed in order to pass through an error that might happen when the tar package
+# versions are updated. Then wstool update will deal with that problem.
+wstool init -j4 "$SARA_ROOT/ros_custom_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_ros_custom.rosinstall" || true
+wstool update --delete-changed-uris -t "$SARA_ROOT/ros_custom_ws/src"
 print_status "\nChecking for missing dependencies..."
 if [ -f /opt/ros/indigo/setup.bash ]
 then
@@ -171,7 +177,10 @@ fi
 print_status "\nInitializing workspace..."
 mkdir -p "$SARA_ROOT/rosjava_ws/src"
 cd "$SARA_ROOT/rosjava_ws"
-wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_rosjava.rosinstall"
+# The true is needed in order to pass through an error that might happen when the tar package
+# versions are updated. Then wstool update will deal with that problem.
+wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_rosjava.rosinstall" || true
+wstool update --delete-changed-uris -t "$SARA_ROOT/rosjava_ws/src"
 #
 print_status "\nChecking for missing dependencies..."
 source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
