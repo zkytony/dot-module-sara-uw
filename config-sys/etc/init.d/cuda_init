@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# This script does nothing on systems without NVidia cards
+# On other systems, it performs proper initialization of the card
+# so that CUDA can be accessed for non-root users.
+# Do not forget to add the user to nvidia-persistanced group as well!
+
+# Get lsb functions
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_begin_msg "Initializing CUDA..."
+
+    # Try loading nvidia module
+    /sbin/modprobe nvidia 2> /dev/zero
+    success=$?
+    if [ "$success" -eq 0 ]; then
+        # Count the number of NVIDIA controllers found.
+        N3D=`/usr/bin/lspci | grep -i NVIDIA | grep "3D controller" | wc -l`
+        NVGA=`/usr/bin/lspci | grep -i NVIDIA | grep "VGA compatible controller" | wc -l`
+        N=`expr $N3D + $NVGA - 1`
+
+        for i in `seq 0 $N`; do
+            mknod -m 666 /dev/nvidia$i c 195 $i;
+        done
+
+        mknod -m 666 /dev/nvidiactl c 195 255
+    else
+        log_failure_msg "No NVidia card or module found! Doing nothing!"
+    fi
+    log_end_msg $success
+    ;;
+  stop)
+    ;;
+  restart)
+    $0 start
+    ;;
+  reload|force-reload)
+    ;;
+  *)
+    log_success_msg "Usage: /etc/init.d/cuda_init start"
+    exit 1
+esac
