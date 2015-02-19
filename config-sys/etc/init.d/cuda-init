@@ -1,9 +1,17 @@
-#!/bin/bash
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          cuda-init
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2
+# Default-Stop:
+# Short-Description: Initializes NVidia driver and CUDA
+# Description:       This script does nothing on systems without NVidia cards
+#                    On other systems, it performs proper initialization of the card
+#                    so that CUDA can be accessed for non-root users.
+#                    Do not forget to add the user to nvidia-persistanced group as well!
+### END INIT INFO
 
-# This script does nothing on systems without NVidia cards
-# On other systems, it performs proper initialization of the card
-# so that CUDA can be accessed for non-root users.
-# Do not forget to add the user to nvidia-persistanced group as well!
 
 # Get lsb functions
 . /lib/lsb/init-functions
@@ -65,3 +73,5 @@ case "$1" in
     log_success_msg "Usage: /etc/init.d/cuda_init start"
     exit 1
 esac
+
+exit 0
