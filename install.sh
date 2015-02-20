@@ -100,16 +100,6 @@ else
             print_status "Existing ROS source installation exists. Updating..."
             rm "$SARA_ROOT/ros_ws/src/.rosinstall"
         fi
-        # Clean all existing ros env vars to start with clean slate
-        unset ROS_ROOT
-        unset ROS_PACKAGE_PATH
-        unset ROSCONSOLE_CONFIG_FILE
-        unset ROS_TEST_RESULTS_DIR
-        unset ROS_MAVEN_DEPLOYMENT_REPOSITORY
-        unset ROS_MAVEN_PATH
-        unset ROS_MAVEN_REPOSITORY
-        unset ROS_DISTRO
-        unset ROS_ETC_DIR
         #
         print_status "\nInitializing workspace..."
         mkdir -p "$SARA_ROOT/ros_ws/src"
@@ -125,7 +115,8 @@ else
         rosdep install --from-paths src -y -i -r --os ubuntu:trusty || true
         #
         print_status "\nCompiling..."
-        ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release
+        # Use a clean environment to not have any dependencies
+        env -i HOME=$HOME bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release"
         # Done
         print_status "Done!"
     else
