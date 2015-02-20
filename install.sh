@@ -179,6 +179,10 @@ source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
 print_status "\nCompiling..."
+# Clean any MAVEN environment variable that might be set
+unset ROS_MAVEN_DEPLOYMENT_REPOSITORY
+unset ROS_MAVEN_PATH
+unset ROS_MAVEN_REPOSITORY
 catkin_make -DCMAKE_BUILD_TYPE=Release # -DCMAKE_EXPORT_COMPILE_COMMANDS=ON Not working for rosjava
 # Done
 print_status "Done!"
