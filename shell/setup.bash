@@ -13,6 +13,18 @@ eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
 ssh-add ~/.ssh/id_rsa 2&> /dev/null
 
 ## ---------------------------
+## Aliases
+## ---------------------------
+alias sara="cd $SARA_ROOT/sara_ws/src"
+if [ -f /opt/ros/indigo/setup.bash ]
+then
+    alias ros="cd /opt/ros/indigo"
+else
+    alias ros="$SARA_ROOT/ros_ws/src"
+fi
+
+
+## ---------------------------
 ## Amazon EC2 Settings
 ## ---------------------------
 # Paths
