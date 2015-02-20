@@ -17,7 +17,6 @@ ssh-add ~/.ssh/id_rsa 2&> /dev/null
 ## ---------------------------
 # Paths
 export EC2_HOME=${DOT_MODULE_DIR}/opt/ec2-api-tools
-export PATH=$PATH:${DOT_MODULE_DIR}/opt/ec2-api-tools/bin
 # URL
 export EC2_URL=https://ec2.us-west-2.amazonaws.com
 # Get status

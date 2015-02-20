@@ -12,3 +12,6 @@ export PATH="/usr/lib/ccache:$PATH"
 
 # Some libs might get installed there
 export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+
+# Paths to internal tools
+export PATH="${DOT_MODULE_DIR}/opt/ec2-api-tools/bin:$PATH"
