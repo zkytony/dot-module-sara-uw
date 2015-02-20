@@ -116,7 +116,7 @@ else
         #
         print_status "\nCompiling..."
         # Use a clean environment to not have any dependencies
-        env -i HOME=$HOME bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release"
+        env -i HOME=$HOME bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
         # Done
         print_status "Done!"
     else
@@ -152,7 +152,7 @@ fi
 # The following will result in an error about rosdep in utopic etc. so we add || true
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 print_status "\nCompiling..."
-catkin_make -DCMAKE_BUILD_TYPE=Release
+catkin_make -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 # Done
 print_status "Done!"
 
@@ -179,7 +179,7 @@ source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
 print_status "\nCompiling..."
-catkin_make -DCMAKE_BUILD_TYPE=Release
+catkin_make -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 # Done
 print_status "Done!"
 
@@ -270,7 +270,7 @@ source "$SARA_ROOT/rosjava_ws/devel/setup.bash"
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
 print_status "\nCompiling..."
-catkin_make -DCMAKE_BUILD_TYPE=Release
+catkin_make -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 # Done
 print_status "Done!"
 
