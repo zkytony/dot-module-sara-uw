@@ -20,7 +20,7 @@ if [ -f /opt/ros/indigo/setup.bash ]
 then
     alias ros="cd /opt/ros/indigo"
 else
-    alias ros="$SARA_ROOT/ros_ws/src"
+    alias ros="cd $SARA_ROOT/ros_ws/src"
 fi
 
 
