@@ -44,7 +44,7 @@ print_header "Installing system-wide config files"
 # CUDA Initialization (harmless on systems without NVidia)
 dot_copy_config_sys $DOT_MODULE_DIR "etc/init.d/cuda-init"
 dot_copy_config_sys $DOT_MODULE_DIR "etc/rc2.d/S99cuda-init"
-chmod a+x /etc/init.d/cuda_init
+chmod a+x /etc/init.d/cuda-init
 # Done
 print_status "Done!"
 
