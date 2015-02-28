@@ -1,9 +1,13 @@
 # dot-module-sara
 SARA Project dot files module.
 
-## Installation
+## Pre-Install notes
 
-Please note that the steps marked with **[Single user setup only]** should only be performed on your local machine over which you have complete control. Do not perform those steps on SARA servers!
+Installation has been tested for Ubuntu 14.04.1. There are known dependency issues for Ubuntu 14.04.2 involving `libcheese`.
+
+The steps marked with **[Single user setup only]** should only be performed on your local machine over which you have complete control. Do not perform those steps on SARA servers!
+
+## Installation
 
 1. Install the [main dot package](https://github.com/pronobis/dot):
     ```
