@@ -104,7 +104,7 @@ else
         print_status "\nInitializing workspace..."
         mkdir -p "$SARA_ROOT/ros_ws/src"
         cd "$SARA_ROOT/ros_ws"
-        rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera warehouse_ros hokuyo_node joystick_drivers robot_localization octomap octomap_msgs --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
+        rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera warehouse_ros hokuyo_node joystick_drivers robot_localization octomap_ros octomap octomap_msgs --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
         # The true is needed in order to pass through an error that might happen when the tar package
         # versions are updated. Then wstool update will deal with that problem.
         wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall" || true
