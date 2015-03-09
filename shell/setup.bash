@@ -38,15 +38,16 @@ export EC2_URL=https://ec2.us-west-2.amazonaws.com
 function ec2-status
 {
     info=$( ec2-describe-instances --show-empty-fields )
-    tags=( $( echo "$info" | grep TAG | grep Name ) )
     sedcmd=""
-    for i in "${tags[@]}"
+    old_IFS=$IFS; IFS=$'\n'
+    for i in $( echo "$info" | grep TAG | grep Name )
     do
         id=$( echo $i | sed 's/\(.*instance[ \t]*\)\([^ \t]*\)\([ \t]*.*\)/\2/' )
         name=$( echo $i | sed 's/\(.*Name[ \t]*\)\(.*\)/\2/' )
         name=$( printf "%-20s" "$name" )
         sedcmd="$sedcmd -e 's/\($id\)/\1 | $name/'"
     done
+    IFS=$old_IFS
     all=$( echo "$info" | grep INSTANCE | awk '{print $2 " | " $6}' | eval "sed $sedcmd" )
 
     set_format ${LIGHT_GREEN}
