@@ -1,29 +1,6 @@
 #!/bin/bash
 
-## -------------------------------------------------------------
-## General
-## -------------------------------------------------------------
-# Set paths
-export DOT_MODULE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-if [ -z "$DOT_DIR" ]
-then
-   export DOT_DIR=$( readlink -f $DOT_MODULE_DIR/../.. )
-fi
-TMP_DIR="$DOT_MODULE_DIR/tmp"
-# Load sara root from the config file
-eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
-
-# Interrupt the script on first error
-set -e
-
-# Import tools
-. $DOT_DIR/shell/tools.bash
-
-# Check if not run as root
-check_not_root
-
-# Header
-print_main_module_header
+dot_shell=$(cd "${0%/*}/../../shell" && pwd); . "$dot_shell/install_module_header.sh"
 
 
 ## -------------------------------------------------------------
@@ -301,7 +278,6 @@ fi
 
 
 ## -------------------------------------------------------------
-## Finishing
+## Done!
 ## -------------------------------------------------------------
-print_main_module_footer
-unset DOT_MODULE_DIR
+. "$dot_shell/install_module_footer.sh"
