@@ -3,6 +3,9 @@
 ## This file is executed for all bash sessions
 ## --------------------------------------------
 
+# Include formatting
+. "$DOT_DIR/shell/formatting.sh"
+
 # Load sara root from the config file in case the login shell was not yet re-run
 eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
 
@@ -46,10 +49,14 @@ function ec2-status
     done
     all=$( echo "$info" | grep INSTANCE | awk '{print $2 " | " $6}' | eval "sed $sedcmd" )
 
-    print_status "Running instances:"
+    set_format ${LIGHT_GREEN}
+    echo "Running instances:"
+    clear_format
     echo "$all" | grep --color=never running
     echo
-    print_status "Other instances:"
+    set_format ${LIGHT_GREEN}
+    echo "Other instances:"
+    clear_format
     echo "$all" | grep -v --color=never running
 }
 
