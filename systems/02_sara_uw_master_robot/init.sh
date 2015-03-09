@@ -4,4 +4,3 @@
 
 print_status "Restarting OpenVPN"
 sudo /etc/init.d/openvpn restart
-print_status "Done"
