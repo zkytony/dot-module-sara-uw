@@ -1,3 +1,9 @@
+# -*- mode: sh -*-
+## ----------------------------------------------------------
+## Executed for interactive, login and non-login
+## Bash sessions.
+## ----------------------------------------------------------
+
 # SARA
 if [ -d $SARA_ROOT ]
 then

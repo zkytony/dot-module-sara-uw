@@ -1,7 +1,8 @@
 # -*- mode: sh -*-
-## --------------------------------------------
-## This file is executed for all bash sessions
-## --------------------------------------------
+## ----------------------------------------------------------
+## Executed for interactive and non-interactive,
+## login and non-login Bash sessions.
+## ----------------------------------------------------------
 
 # Include formatting
 . "$DOT_DIR/shell/formatting.sh"
