@@ -1,7 +1,7 @@
 #!/bin/bash
 
 dot_shell=$(cd "${0%/*}/../../shell" && pwd); . "$dot_shell/install_module_header.sh"
-check_virtualenv  # Check for virtualenv
+dot_check_virtualenv  # Check for virtualenv
 
 
 ## -------------------------------------------------------------
