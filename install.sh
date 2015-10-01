@@ -34,8 +34,17 @@ then
     print_warning "You are running Ubuntu >=15.10. Some ROS dependencies (collada-dom, PCL) must be installed from source!"
     if yes_no_question "(Re-)Install collada-dom (master branch) from source system-wide?"
     then
+        print_status "Installing collada-dom Ubuntu dependencies..."
+        # Currently we are not sure what those dependencies are, so we just list build-essential
+        if dot_check_packages build-essential
+        then
+            print_status "All Ubuntu dependencies are already installed."
+        else
+            dot_install_packages $DOT_NOT_INSTALLED
+            print_status "Done!"
+        fi
         print_status "Downloading collada-dom (master branch)..."
-        rm -rf "${TMP_DIR}/mc"
+        rm -rf "${TMP_DIR}/collada-dom"
         git clone --recursive https://github.com/rdiankov/collada-dom.git "${TMP_DIR}/collada-dom"
         print_status "Compiling collada-dom..."
         cd "${TMP_DIR}/collada-dom"
@@ -48,8 +57,18 @@ then
     fi
     if yes_no_question "(Re-)Install PCL (master branch) from source system-wide?"
     then
+        print_status "Installing PCL Ubuntu dependencies..."
+        # Currently we are not sure what those dependencies are, so we just list build-essential
+        if dot_check_packages build-essential
+        then
+            print_status "All Ubuntu dependencies are already installed."
+        else
+            dot_install_packages $DOT_NOT_INSTALLED
+            print_status "Done!"
+        fi
         print_status "Downloading PCL (master branch)..."
-
+        rm -rf "${TMP_DIR}/pcl"
+        git clone --recursive https://github.com/PointCloudLibrary/pcl.git "${TMP_DIR}/pcl"
     fi
 fi
 
