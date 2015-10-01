@@ -11,13 +11,9 @@ dot_check_virtualenv  # Check for virtualenv
 ## -------------------------------------------------------------
 
 ## -------------------------------------------------------------
-print_header "Checking SARA path"
-if [ -z "$SARA_ROOT" ]
-then
-    print_error "SARA_ROOT environment variable is not set! Restart your terminal?"
-    exit 1
-fi
-print_status "Done!"
+# Load sara root from the config file in case the login shell was not yet re-run
+eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
+print_status "SARA_ROOT is set to ${SARA_ROOT}"
 
 
 ## -------------------------------------------------------------
