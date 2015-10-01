@@ -13,7 +13,7 @@ dot_check_virtualenv  # Check for virtualenv
 ## -------------------------------------------------------------
 # Load sara root from the config file in case the login shell was not yet re-run
 eval "export SARA_ROOT=$(cat $DOT_MODULE_DIR/sara_root.conf)"
-print_status "SARA_ROOT is set to ${SARA_ROOT}"
+print_info "SARA_ROOT is set to ${SARA_ROOT}"
 
 
 ## -------------------------------------------------------------
@@ -63,17 +63,50 @@ then
     # print_status "Done!"
 else
     print_warning "You are not running Ubuntu 14.04 Trusty."
-    if yes_no_question "Install ROS from sources?"
+    if yes_no_question "(Re-)Install ROS from sources?"
     then
         # rosdep
         print_status "Installing rosdep and wstool..."
         sudo pip install -U rosdep rosinstall_generator wstool rosinstall
         print_status "Updating rosdep..."
         rosdep update
+        # ROS
+        print_status "Installing ROS from sources..."
+        if [ -f "$SARA_ROOT/ros_ws/src/.rosinstall" ]
+        then
+            print_status "Existing ROS source installation exists. Updating..."
+            rm "$SARA_ROOT/ros_ws/src/.rosinstall"
+        fi
+        print_status "Initializing workspace..."
+        mkdir -p "$SARA_ROOT/ros_ws/src"
+        cd "$SARA_ROOT/ros_ws"
+        rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera warehouse_ros hokuyo_node joystick_drivers robot_localization octomap_ros octomap octomap_mapping octomap_rviz_plugins octomap_msgs --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
+        # The true is needed in order to pass through an error that might happen when the tar package
+        # versions are updated. Then wstool update will deal with that problem.
+        wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall" || true
+        wstool update --delete-changed-uris -t "$SARA_ROOT/ros_ws/src"
+        #
+        print_status "Checking for missing dependencies..."
+        # The following will result in an error about rosdep in non-trusty etc. so we add || true
+        rosdep install --from-paths src -y -i -r --os ubuntu:trusty || true
+        #
+        print_status "Compiling..."
+        # Use a clean environment to not have any dependencies
+        # Run with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        env -i HOME=$HOME bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+        # Repeat without -DCMAKE_EXPORT_COMPILE_COMMANDS=ON since rosjava doesn't like it.
+        env -i HOME=$HOME bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release"
+        # Done
         print_status "Done!"
     fi
 fi
 
+# else
+#     print_error "You are not on Ubuntu Utopic 14.10 and have no system-wide ROS installation."
+#     print_info "You could have forgotten to run install-sys.sh which installs ROS on Trusty."
+#     print_info "Other systems than Ubuntu Trusty and Utopic are NOT supported!"
+#     exit 1
+# fi
 
 
 exit
