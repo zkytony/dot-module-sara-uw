@@ -56,13 +56,16 @@ then
     # # Done!
     # print_status "Done!"
 else
-    print_warning "You are not running Ubuntu 14.04 Trusty. Installing ROS from sources."
-    # rosdep
-    print_status "Installing rosdep and wstool..."
-    sudo pip install -U rosdep rosinstall_generator wstool rosinstall
-    print_status "Updating rosdep..."
-    rosdep update
-    print_status "Done!"
+    print_warning "You are not running Ubuntu 14.04 Trusty."
+    if yes_no_question "Install ROS from sources?"
+    then
+        # rosdep
+        print_status "Installing rosdep and wstool..."
+        sudo pip install -U rosdep rosinstall_generator wstool rosinstall
+        print_status "Updating rosdep..."
+        rosdep update
+        print_status "Done!"
+    fi
 fi
 
 
