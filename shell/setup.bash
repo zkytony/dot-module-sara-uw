@@ -27,7 +27,6 @@ else
     alias ros="cd $SARA_ROOT/ros_ws/src"
 fi
 
-
 ## ---------------------------
 ## Amazon EC2 Settings
 ## ---------------------------
