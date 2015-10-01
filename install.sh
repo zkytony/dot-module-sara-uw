@@ -1,6 +1,8 @@
 #!/bin/bash
 
 dot_shell=$(cd "${0%/*}/../../shell" && pwd); . "$dot_shell/install_module_header.sh"
+dot_check_root # Check if we run as root
+dot_check_ubuntu  # Are we on Ubuntu?
 dot_check_virtualenv  # Check for virtualenv
 
 
@@ -9,10 +11,17 @@ dot_check_virtualenv  # Check for virtualenv
 ## -------------------------------------------------------------
 
 ## -------------------------------------------------------------
-print_header "Creating links to binaries"
-# dot_link_bin $DOT_MODULE_DIR """
-print_status "Done!"
+print_header "Installing required Ubuntu system packages"
+if dot_check_packages build-essential ccache cmake python-setuptools python3-setuptools
+then
+    print_status "All required Ubuntu system packages are already installed."
+else
+    dot_install_packages $DOT_NOT_INSTALLED
+    print_status "Done!"
+fi
 
+
+exit
 
 ## -------------------------------------------------------------
 print_header "Installing user-local config files"
@@ -46,6 +55,8 @@ unzip -q ec2-api-tools.zip
 rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 print_status "Done!"
+
+exit
 
 
 ## -------------------------------------------------------------
