@@ -58,8 +58,7 @@ then
     if yes_no_question "(Re-)Install PCL (master branch) from source system-wide?"
     then
         print_status "Installing PCL Ubuntu dependencies..."
-        # Currently we are not sure what those dependencies are, so we just list build-essential
-        if dot_check_packages build-essential
+        if dot_check_packages libflann-dev libvtk5-dev libvtk5-qt4-dev
         then
             print_status "All Ubuntu dependencies are already installed."
         else
@@ -69,6 +68,15 @@ then
         print_status "Downloading PCL (master branch)..."
         rm -rf "${TMP_DIR}/pcl"
         git clone --recursive https://github.com/PointCloudLibrary/pcl.git "${TMP_DIR}/pcl"
+        print_status "Compiling PCL..."
+        cd "${TMP_DIR}/pcl"
+        mkdir -p build
+        cd build
+        # Install to /usr/local
+        cmake .. -DBUILD_apps=ON
+        make
+        print_status "Installing PCL..."
+        sudo make install
     fi
 fi
 
