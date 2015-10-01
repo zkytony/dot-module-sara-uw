@@ -21,6 +21,52 @@ else
 fi
 
 
+## -------------------------------------------------------------
+print_header "Installing system-wide config files"
+# CUDA Initialization (harmless on systems without NVidia)
+dot_copy_config_sys $DOT_MODULE_DIR "etc/init.d/cuda-init"
+dot_copy_config_sys $DOT_MODULE_DIR "etc/rc2.d/S99cuda-init"
+chmod a+x /etc/init.d/cuda-init
+# Done
+print_status "Done!"
+
+
+## -------------------------------------------------------------
+print_header "Installing ROS"
+if [ "$(lsb_release -cs)" == "trusty" ]
+then
+    print_status "Installing ROS using Ubuntu Trusty packages."
+    print_error "Installation using packages has been temporarily disabled."
+    print_error "If you can test it, you should enable it and send a PR."
+    exit 1
+    # print_status "Adding ROS repositories..."
+    # sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
+    # wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add -
+    # apt-get update
+    # #
+    # print_status "Installing ROS packages..."
+    # sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
+    # #
+    # print_status "Installing rosdep..."
+    # if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]
+    # then
+    #     rm /etc/ros/rosdep/sources.list.d/20-default.list
+    # fi
+    # rosdep init
+    # # Done!
+    # print_status "Done!"
+else
+    print_warning "You are not running Ubuntu 14.04 Trusty. Installing ROS from sources."
+    # rosdep
+    print_status "Installing rosdep and wstool..."
+    sudo pip install -U rosdep rosinstall_generator wstool rosinstall
+    print_status "Updating rosdep..."
+    rosdep update
+    print_status "Done!"
+fi
+
+
+
 exit
 
 ## -------------------------------------------------------------
@@ -57,12 +103,6 @@ mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
 print_status "Done!"
 
 exit
-
-
-## -------------------------------------------------------------
-print_header "Updating rosdep"
-rosdep update
-print_status "Done!"
 
 
 ## -------------------------------------------------------------
