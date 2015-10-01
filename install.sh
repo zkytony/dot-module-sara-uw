@@ -28,7 +28,7 @@ fi
 
 
 ## -------------------------------------------------------------
-print_header "Installing required Ubuntu system packages"
+print_header "Installing required source packages"
 if dot_is_min_ubuntu_version 15.10
 then
     print_warning "You are running Ubuntu >=15.10. Some ROS dependencies (collada-dom, PCL) must be installed from source!"
@@ -79,8 +79,6 @@ then
         sudo make install
     fi
 fi
-
-
 
 
 ## -------------------------------------------------------------
