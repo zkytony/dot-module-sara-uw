@@ -28,13 +28,32 @@ fi
 
 
 ## -------------------------------------------------------------
-print_header "Installing system-wide config files"
-# CUDA Initialization (harmless on systems without NVidia)
-dot_copy_config_sys $DOT_MODULE_DIR "etc/init.d/cuda-init"
-dot_copy_config_sys $DOT_MODULE_DIR "etc/rc2.d/S99cuda-init"
-sudo chmod a+x /etc/init.d/cuda-init
-# Done
-print_status "Done!"
+print_header "Installing required Ubuntu system packages"
+if dot_is_min_ubuntu_version 15.10
+then
+    print_warning "You are running Ubuntu >=15.10. Some ROS dependencies (collada-dom, PCL) must be installed from source!"
+    if yes_no_question "(Re-)Install collada-dom (master branch) from source system-wide?"
+    then
+        print_status "Downloading collada-dom (master branch)..."
+        rm -rf "${TMP_DIR}/mc"
+        git clone --recursive https://github.com/rdiankov/collada-dom.git "${TMP_DIR}/collada-dom"
+        print_status "Compiling collada-dom..."
+        cd "${TMP_DIR}/collada-dom"
+        mkdir -p build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
+        make
+        print_status "Installing collada-dom..."
+        sudo make install
+    fi
+    if yes_no_question "(Re-)Install PCL (master branch) from source system-wide?"
+    then
+        print_status "Downloading PCL (master branch)..."
+
+    fi
+fi
+
+
 
 
 ## -------------------------------------------------------------
@@ -142,6 +161,17 @@ fi
 
 
 exit
+
+
+## -------------------------------------------------------------
+print_header "Installing system-wide config files"
+# CUDA Initialization (harmless on systems without NVidia)
+dot_copy_config_sys $DOT_MODULE_DIR "etc/init.d/cuda-init"
+dot_copy_config_sys $DOT_MODULE_DIR "etc/rc2.d/S99cuda-init"
+sudo chmod a+x /etc/init.d/cuda-init
+# Done
+print_status "Done!"
+
 
 ## -------------------------------------------------------------
 print_header "Installing user-local config files"
