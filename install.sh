@@ -11,6 +11,16 @@ dot_check_virtualenv  # Check for virtualenv
 ## -------------------------------------------------------------
 
 ## -------------------------------------------------------------
+print_header "Checking SARA path"
+if [ -z "$SARA_ROOT" ]
+then
+    print_error "SARA_ROOT environment variable is not set! Restart your terminal?"
+    exit 1
+fi
+print_status "Done!"
+
+
+## -------------------------------------------------------------
 print_header "Installing required Ubuntu system packages"
 if dot_check_packages build-essential ccache cmake python-setuptools python3-setuptools
 then
@@ -108,14 +118,6 @@ print_status "Done!"
 exit
 
 
-## -------------------------------------------------------------
-print_header "Checking SARA path"
-if [ -z "$SARA_ROOT" ]
-then
-    print_error "SARA_ROOT environment variable is not set!"
-    exit 1
-fi
-print_status "Done!"
 
 
 ## -------------------------------------------------------------
