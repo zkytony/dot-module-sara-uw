@@ -143,11 +143,10 @@ else
         #
         print_status "Compiling..."
         # Use a clean environment to not have any dependencies
-        # CMAKE_ROOT needs to be defined for Ubuntu Willy
         # Run with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-        env -i HOME=$HOME bash -c "source /etc/profile; CMAKE_ROOT=/usr ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+        env -i HOME=$HOME PATH="/usr/bin:/bin" bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
         # Repeat without -DCMAKE_EXPORT_COMPILE_COMMANDS=ON since rosjava doesn't like it.
-        env -i HOME=$HOME bash -c "source /etc/profile; CMAKE_ROOT=/usr ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release"
+        env -i HOME=$HOME PATH="/usr/bin:/bin" bash -c "source /etc/profile; ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release"
         # Done
         print_status "Done!"
     fi
