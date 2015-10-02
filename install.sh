@@ -51,7 +51,7 @@ then
         mkdir -p build
         cd build
         cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
-        make
+        make -j4
         print_status "Installing collada-dom..."
         sudo make install
     fi
@@ -74,7 +74,7 @@ then
         cd build
         # Install to /usr/local
         cmake .. -DBUILD_apps=ON -DPCL_QT_VERSION=4
-        make
+        make -j4
         print_status "Installing PCL..."
         sudo make install
     fi
@@ -185,6 +185,38 @@ fi
 # fi
 
 
+## -------------------------------------------------------------
+print_header "Installing ROSJava packages"
+if [ -f "$SARA_ROOT/rosjava_ws/src/.rosinstall" ]
+then
+    print_status "Existing installation exists. Updating..."
+    rm "$SARA_ROOT/rosjava_ws/src/.rosinstall"
+fi
+#
+print_status "Initializing workspace..."
+mkdir -p "$SARA_ROOT/rosjava_ws/src"
+cd "$SARA_ROOT/rosjava_ws"
+# The true is needed in order to pass through an error that might happen when the tar package
+# versions are updated. Then wstool update will deal with that problem.
+wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_rosjava.rosinstall" || true
+wstool update --delete-changed-uris -t "$SARA_ROOT/rosjava_ws/src"
+#
+print_status "Checking for missing dependencies..."
+source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+# The following will result in an error about rosdep in utopic etc. so we add || true
+rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
+#
+print_status "Compiling..."
+# Clean any MAVEN environment variable that might be set
+unset ROS_MAVEN_DEPLOYMENT_REPOSITORY
+unset ROS_MAVEN_PATH
+unset ROS_MAVEN_REPOSITORY
+catkin_make -DCMAKE_BUILD_TYPE=Release
+# Done
+print_status "Done!"
+
+
+
 exit
 
 
@@ -240,35 +272,6 @@ exit
 
 
 
-## -------------------------------------------------------------
-print_header "Installing ROSJava packages"
-if [ -f "$SARA_ROOT/rosjava_ws/src/.rosinstall" ]
-then
-    print_status "Existing installation exists. Updating..."
-    rm "$SARA_ROOT/rosjava_ws/src/.rosinstall"
-fi
-#
-print_status "\nInitializing workspace..."
-mkdir -p "$SARA_ROOT/rosjava_ws/src"
-cd "$SARA_ROOT/rosjava_ws"
-# The true is needed in order to pass through an error that might happen when the tar package
-# versions are updated. Then wstool update will deal with that problem.
-wstool init -j4 "$SARA_ROOT/rosjava_ws/src" "$DOT_MODULE_DIR/rosinstall/sara_rosjava.rosinstall" || true
-wstool update --delete-changed-uris -t "$SARA_ROOT/rosjava_ws/src"
-#
-print_status "\nChecking for missing dependencies..."
-source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
-# The following will result in an error about rosdep in utopic etc. so we add || true
-rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
-#
-print_status "\nCompiling..."
-# Clean any MAVEN environment variable that might be set
-unset ROS_MAVEN_DEPLOYMENT_REPOSITORY
-unset ROS_MAVEN_PATH
-unset ROS_MAVEN_REPOSITORY
-catkin_make -DCMAKE_BUILD_TYPE=Release
-# Done
-print_status "Done!"
 
 
 ## -------------------------------------------------------------
