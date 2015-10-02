@@ -73,7 +73,7 @@ then
         mkdir -p build
         cd build
         # Install to /usr/local
-        cmake .. -DBUILD_apps=ON
+        cmake .. -DBUILD_apps=ON -DPCL_QT_VERSION=4
         make
         print_status "Installing PCL..."
         sudo make install
