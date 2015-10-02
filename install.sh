@@ -132,7 +132,7 @@ else
         # that is not fixed in the .tar package. Once this commit gets to the package
         # https://github.com/OctoMap/octomap_rviz_plugins/commit/b4a5d30ac6178fbeba5020969783dfb9bf4fcdc3
         # we can just skip this step.
-        wstool set octomap_rviz_plugins -y --version-new indigo-devel --git https://github.com/OctoMap/octomap_rviz_plugins.git
+        wstool set octomap_rviz_plugins -y --version-new indigo-devel --git https://github.com/OctoMap/octomap_rviz_plugins.git -t "$SARA_ROOT/ros_ws/src"
         # Now, update
         wstool update --delete-changed-uris -t "$SARA_ROOT/ros_ws/src"
         #
