@@ -18,7 +18,7 @@ print_info "SARA_ROOT is set to: ${SARA_ROOT}"
 
 ## -------------------------------------------------------------
 print_header "Installing required Ubuntu system packages"
-if dot_check_packages build-essential ccache cmake python-setuptools python3-setuptools
+if dot_check_packages build-essential ccache cmake python-setuptools python3-setuptools whiptail
 then
     print_status "All required Ubuntu system packages are already installed."
 else
