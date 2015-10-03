@@ -212,7 +212,12 @@ then
     wstool update --delete-changed-uris -t "$SARA_ROOT/rosjava_ws/src"
     #
     print_status "Checking for missing dependencies..."
-    source "$SARA_ROOT/ros_custom_ws/devel/setup.bash"
+    if [ -f /opt/ros/indigo/setup.bash ]
+    then
+        source /opt/ros/indigo/setup.bash
+    else
+        source "$SARA_ROOT/ros_ws/install_isolated/setup.bash"
+    fi
     # The following will result in an error about rosdep in utopic etc. so we add || true
     rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
     #
@@ -312,7 +317,12 @@ if [ -n "${INSTALL_ROSJAVA}" ]
 then
     source "$SARA_ROOT/rosjava_ws/devel/setup.bash"
 else
-    source "$SARA_ROOT/ros_ws/devel/setup.bash"
+    if [ -f /opt/ros/indigo/setup.bash ]
+    then
+        source /opt/ros/indigo/setup.bash
+    else
+        source "$SARA_ROOT/ros_ws/install_isolated/setup.bash"
+    fi
 fi
 # The following will result in an error about rosdep in utopic etc. so we add || true
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
