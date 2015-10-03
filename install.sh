@@ -264,7 +264,7 @@ fi
 print_status "Your GitHub username has been identified as: $github_user"
 #
 use_personal_forks=""
-if whiptail --yesno "Have you created your own forks of all SARA repositories for user $github_user?" 8 50
+if yes_no_question "Have you created your own forks of all SARA repositories for user $github_user?"
 then
     print_status "Replacing generic branches with your own forks..."
     if [ "$github_user" == "pronobis" ]
