@@ -156,6 +156,7 @@ fi
 ## -------------------------------------------------------------
 # Currently we don't have any custom package versions to install
 # since all the changes have been merged upstream.
+# If you uncomment the code below, don't forget to change the sourced paths!
 
 # print_header "Installing custom ROS packages"
 # if yes_no_question "(Re-)Install custom ROS packages?"
@@ -195,6 +196,7 @@ fi
 print_header "Installing ROSJava packages"
 if yes_no_question "(Re-)Install ROS Java (from sources)?"
 then
+    INSTALL_ROSJAVA=1
     if [ -f "$SARA_ROOT/rosjava_ws/src/.rosinstall" ]
     then
         print_status "Existing installation exists. Updating..."
@@ -300,17 +302,22 @@ then
     rm "$SARA_ROOT/sara_ws/src/.rosinstall"
 fi
 #
-print_status "\nInitializing workspace..."
+print_status "Initializing workspace..."
 mkdir -p "$SARA_ROOT/sara_ws/src"
 cd "$SARA_ROOT/sara_ws"
 wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
 #
-print_status "\nChecking for missing dependencies..."
-source "$SARA_ROOT/rosjava_ws/devel/setup.bash"
+print_status "Checking for missing dependencies..."
+if [ -n "${INSTALL_ROSJAVA}" ]
+then
+    source "$SARA_ROOT/rosjava_ws/devel/setup.bash"
+else
+    source "$SARA_ROOT/ros_ws/devel/setup.bash"
+fi
 # The following will result in an error about rosdep in utopic etc. so we add || true
 rosdep install --from-paths src -i -y -r --os ubuntu:trusty || true
 #
-print_status "\nCompiling..."
+print_status "Compiling..."
 catkin_make -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 # Done
 print_status "Done!"
