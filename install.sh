@@ -225,63 +225,6 @@ then
 fi
 
 
-exit
-
-
-## -------------------------------------------------------------
-print_header "Installing system-wide config files"
-# CUDA Initialization (harmless on systems without NVidia)
-dot_copy_config_sys $DOT_MODULE_DIR "etc/init.d/cuda-init"
-dot_copy_config_sys $DOT_MODULE_DIR "etc/rc2.d/S99cuda-init"
-sudo chmod a+x /etc/init.d/cuda-init
-# Done
-print_status "Done!"
-
-
-## -------------------------------------------------------------
-print_header "Installing user-local config files"
-# VNC client
-dot_link_config $DOT_MODULE_DIR ".vnc/profiles/sara_uw_dube.vnc"
-dot_link_config $DOT_MODULE_DIR ".vnc/profiles/sara_uw_ec2_sim.vnc"
-# Shortcuts
-dot_link_config $DOT_MODULE_DIR ".local/share/applications/*.desktop"
-# SSH
-dot_prepend_section_to_config $DOT_MODULE_DIR ".ssh/config" "# dot-module-sara-uw configuration begins here" "# dot-module-sara-uw configuration ends here"
-# Art
-dot_link_config $DOT_MODULE_DIR ".local/share/icons/*.png"
-dot_link_config $DOT_MODULE_DIR ".local/share/wallpapers/*.png"
-# Done
-print_status "Done!"
-
-
-## -------------------------------------------------------------
-print_header "Installing EC2 API tools"
-print_status "Downloading..."
-cd ${TMP_DIR}
-rm -rf ec2-api-tools.zip
-wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
-print_status "\nObtaining version..."
-ec2_ver=$(unzip -v ec2-api-tools.zip | grep -G "ec2-api-tools-[0-9\.]*/$")
-ec2_ver=${ec2_ver##*ec2-api-tools-}
-ec2_ver=${ec2_ver%%/*}
-print_status "\nInstalling verision $ec2_ver..."
-rm -rf ec2-api-tools-$ec2_ver
-unzip -q ec2-api-tools.zip
-rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
-mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
-print_status "Done!"
-
-exit
-
-
-
-
-
-
-
-
-
-
 ## -------------------------------------------------------------
 print_header "Selecting SARA setup"
 configs=""
@@ -386,6 +329,50 @@ then
    # Done
    print_status "Done!"
 fi
+
+
+## -------------------------------------------------------------
+print_header "Installing system-wide config files"
+# CUDA Initialization (harmless on systems without NVidia)
+dot_copy_config_sys $DOT_MODULE_DIR "etc/init.d/cuda-init"
+dot_copy_config_sys $DOT_MODULE_DIR "etc/rc2.d/S99cuda-init"
+sudo chmod a+x /etc/init.d/cuda-init
+# Done
+print_status "Done!"
+
+
+## -------------------------------------------------------------
+print_header "Installing user-local config files"
+# VNC client
+dot_link_config $DOT_MODULE_DIR ".vnc/profiles/sara_uw_dube.vnc"
+dot_link_config $DOT_MODULE_DIR ".vnc/profiles/sara_uw_ec2_sim.vnc"
+# Shortcuts
+dot_link_config $DOT_MODULE_DIR ".local/share/applications/*.desktop"
+# SSH
+dot_prepend_section_to_config $DOT_MODULE_DIR ".ssh/config" "# dot-module-sara-uw configuration begins here" "# dot-module-sara-uw configuration ends here"
+# Art
+dot_link_config $DOT_MODULE_DIR ".local/share/icons/*.png"
+dot_link_config $DOT_MODULE_DIR ".local/share/wallpapers/*.png"
+# Done
+print_status "Done!"
+
+
+## -------------------------------------------------------------
+print_header "Installing EC2 API tools"
+print_status "Downloading..."
+cd ${TMP_DIR}
+rm -rf ec2-api-tools.zip
+wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
+print_status "\nObtaining version..."
+ec2_ver=$(unzip -v ec2-api-tools.zip | grep -G "ec2-api-tools-[0-9\.]*/$")
+ec2_ver=${ec2_ver##*ec2-api-tools-}
+ec2_ver=${ec2_ver%%/*}
+print_status "\nInstalling verision $ec2_ver..."
+rm -rf ec2-api-tools-$ec2_ver
+unzip -q ec2-api-tools.zip
+rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
+mv ec2-api-tools-$ec2_ver "${DOT_MODULE_DIR}/opt/ec2-api-tools"
+print_status "Done!"
 
 
 ## -------------------------------------------------------------
