@@ -370,11 +370,11 @@ print_status "Downloading..."
 cd ${TMP_DIR}
 rm -rf ec2-api-tools.zip
 wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
-print_status "\nObtaining version..."
+print_status "Obtaining version..."
 ec2_ver=$(unzip -v ec2-api-tools.zip | grep -G "ec2-api-tools-[0-9\.]*/$")
 ec2_ver=${ec2_ver##*ec2-api-tools-}
 ec2_ver=${ec2_ver%%/*}
-print_status "\nInstalling verision $ec2_ver..."
+print_status "Installing verision $ec2_ver..."
 rm -rf ec2-api-tools-$ec2_ver
 unzip -q ec2-api-tools.zip
 rm -rf "${DOT_MODULE_DIR}/opt/ec2-api-tools"
