@@ -36,7 +36,7 @@ then
     then
         print_status "collada-dom is already installed."
     else
-        if yes_no_question "(Re-)Install collada-dom (master branch) from source system-wide?"
+        if yes_no_question "Install collada-dom (master branch) from source system-wide?"
         then
             print_status "Installing collada-dom Ubuntu dependencies..."
             if dot_check_packages build-essential libboost-dev libboost-filesystem-dev libboost-system-dev
@@ -59,28 +59,33 @@ then
             sudo make install
         fi
     fi
-    if yes_no_question "(Re-)Install PCL (master branch) from source system-wide?"
+    if [ -f /usr/local/lib/libpcl_features.so ]
     then
-        print_status "Installing PCL Ubuntu dependencies..."
-        if dot_check_packages libflann-dev libvtk5-dev libvtk-java python-vtk libvtk5-qt4-dev libboost-dev libboost-thread-dev libboost-date-time-dev libboost-iostreams-dev
+        print_status "PCL is already installed."
+    else
+        if yes_no_question "Install PCL (master branch) from source system-wide?"
         then
-            print_status "All Ubuntu dependencies are already installed."
-        else
-            dot_install_packages $DOT_NOT_INSTALLED
-            print_status "Done!"
+            print_status "Installing PCL Ubuntu dependencies..."
+            if dot_check_packages libflann-dev libvtk5-dev libvtk-java python-vtk libvtk5-qt4-dev libboost-dev libboost-thread-dev libboost-date-time-dev libboost-iostreams-dev
+            then
+                print_status "All Ubuntu dependencies are already installed."
+            else
+                dot_install_packages $DOT_NOT_INSTALLED
+                print_status "Done!"
+            fi
+            print_status "Downloading PCL (master branch)..."
+            rm -rf "${TMP_DIR}/pcl"
+            git clone --recursive https://github.com/PointCloudLibrary/pcl.git "${TMP_DIR}/pcl"
+            print_status "Compiling PCL..."
+            cd "${TMP_DIR}/pcl"
+            mkdir -p build
+            cd build
+            # Install to /usr/local
+            cmake .. -DBUILD_apps=ON -DPCL_QT_VERSION=4
+            make -j4
+            print_status "Installing PCL..."
+            sudo make install
         fi
-        print_status "Downloading PCL (master branch)..."
-        rm -rf "${TMP_DIR}/pcl"
-        git clone --recursive https://github.com/PointCloudLibrary/pcl.git "${TMP_DIR}/pcl"
-        print_status "Compiling PCL..."
-        cd "${TMP_DIR}/pcl"
-        mkdir -p build
-        cd build
-        # Install to /usr/local
-        cmake .. -DBUILD_apps=ON -DPCL_QT_VERSION=4
-        make -j4
-        print_status "Installing PCL..."
-        sudo make install
     fi
 fi
 
