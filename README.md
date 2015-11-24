@@ -1,48 +1,35 @@
 # dot-module-sara
-SARA Project dot files module.
+SARA Project dot module.
 
 ## Pre-Install notes
 
-Installation has been tested for Ubuntu 14.04.1. There are known dependency issues for Ubuntu 14.04.2 involving `libcheese`.
-
-The steps marked with **[Single user setup only]** should only be performed on your local machine over which you have complete control. Do not perform those steps on SARA servers!
+Installation has been tested for Ubuntu 14.04.1 and 15.10. There are known dependency issues for Ubuntu 14.04.2 involving `libcheese`.
 
 ## Installation
 
 1. Install the [main dot package](https://github.com/pronobis/dot):
     ```
-git clone git@github.com:pronobis/dot.git ~/.dot
-cd ~/.dot
-./install.sh
+    git clone git@github.com:pronobis/dot.git ~/.dot; cd ~/.dot; ./install.sh
     ```
 
-2. **[Single user setup only]** If installing for the first time on a computer for which you have root access, run:
-    ```
-sudo -EH ./install.sh
-    ```
+2. Re-login.
 
-3. Clone this package:
-   ```
-git clone --recursive git@github.com:pronobis/dot-module-sara-uw.git ~/.dot/modules/50_dot-module-sara-uw
-cd ~/.dot/modules/50_dot-module-sara-uw
+3. Download this package:
+    ```
+    dot-get add git@github.com:pronobis/dot-module-sara-uw.git
     ```
 
 4. If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`.
 
-5. **[Single user setup only]** If installing for the first time on a computer for which you have root access, run:
+5. Install this package as user
     ```
-sudo -EH ./install-sys.sh
-    ```
-
-6. Then, install user-local config. You may run into errors if your internet connection is bad. If you do, try running the command again.
-    ```
-./install.sh
+    cd ~/.dot/modules/30_dot-module-pronobis-desktop; ./install.sh
     ```
 
-7. In order to use EC2 API tools, you need to add your personal keys to your `~/.bashrc`:
+6. In order to use EC2 API tools, you need to add your personal keys to your `~/.bashrc`:
     ```
 export AWS_ACCESS_KEY=<access_key>
 export AWS_SECRET_KEY=<secret_key>
     ```
 
-8. Now, re-login and chose the system you want using the `sys` command.
+7. Now, re-login and chose the system you want using the `sys` command.
