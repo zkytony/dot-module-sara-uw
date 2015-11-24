@@ -138,6 +138,7 @@ else
         # The true is needed in order to pass through an error that might happen when the tar package
         # versions are updated. Then wstool update will deal with that problem.
         # Those errors are normal and should be ignored.
+        print_info "Any error below is OK:"
         wstool init -j4 "$SARA_ROOT/ros_ws/src" "$SARA_ROOT/ros_ws/sara_ros.rosinstall" || true
         # We need to update octomap_rviz_plugins to indigo-devel due to a bug
         # that is not fixed in the .tar package. Once this commit gets to the package
