@@ -36,7 +36,7 @@ then
     then
         print_status "Installing collada-dom Ubuntu dependencies..."
         # Currently we are not sure what those dependencies are, so we just list build-essential
-        if dot_check_packages build-essential libbost-dev libboost-filesystem-dev libboost-system-dev
+        if dot_check_packages build-essential libboost-dev libboost-filesystem-dev libboost-system-dev
         then
             print_status "All Ubuntu dependencies are already installed."
         else
