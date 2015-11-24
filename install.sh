@@ -122,6 +122,7 @@ else
         print_status "Installing rosdep and wstool..."
         sudo pip install -U rosdep rosinstall_generator wstool rosinstall
         print_status "Updating rosdep..."
+        sudo rosdep init > /dev/null || true  # Will fail if already inited
         rosdep update
         # ROS
         print_status "Installing ROS from sources..."
