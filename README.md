@@ -23,7 +23,7 @@ Installation has been tested for Ubuntu 14.04.1 and 15.10. There are known depen
 
 5. Install this package as user
     ```
-    cd ~/.dot/modules/30_dot-module-pronobis-desktop; ./install.sh
+    cd ~/.dot/modules/50_dot-module-sara-uw; ./install.sh
     ```
 
 6. In order to use EC2 API tools, you need to add your personal keys to your `~/.bashrc`:
