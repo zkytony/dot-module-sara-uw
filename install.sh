@@ -32,27 +32,32 @@ print_header "Installing required source packages"
 if dot_is_min_ubuntu_version 15.10
 then
     print_warning "You are running Ubuntu >=15.10. Some ROS dependencies (collada-dom, PCL) must be installed from source!"
-    if yes_no_question "(Re-)Install collada-dom (master branch) from source system-wide?"
+    if [ -f /usr/lib/libcollada-dom*-dp.so ]
     then
-        print_status "Installing collada-dom Ubuntu dependencies..."
-        if dot_check_packages build-essential libboost-dev libboost-filesystem-dev libboost-system-dev
+        print_status "collada-dom is already installed."
+    else
+        if yes_no_question "(Re-)Install collada-dom (master branch) from source system-wide?"
         then
-            print_status "All Ubuntu dependencies are already installed."
-        else
-            dot_install_packages $DOT_NOT_INSTALLED
-            print_status "Done!"
+            print_status "Installing collada-dom Ubuntu dependencies..."
+            if dot_check_packages build-essential libboost-dev libboost-filesystem-dev libboost-system-dev
+            then
+                print_status "All Ubuntu dependencies are already installed."
+            else
+                dot_install_packages $DOT_NOT_INSTALLED
+                print_status "Done!"
+            fi
+            print_status "Downloading collada-dom (master branch)..."
+            rm -rf "${TMP_DIR}/collada-dom"
+            git clone --recursive https://github.com/rdiankov/collada-dom.git "${TMP_DIR}/collada-dom"
+            print_status "Compiling collada-dom..."
+            cd "${TMP_DIR}/collada-dom"
+            mkdir -p build
+            cd build
+            cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
+            make -j4
+            print_status "Installing collada-dom..."
+            sudo make install
         fi
-        print_status "Downloading collada-dom (master branch)..."
-        rm -rf "${TMP_DIR}/collada-dom"
-        git clone --recursive https://github.com/rdiankov/collada-dom.git "${TMP_DIR}/collada-dom"
-        print_status "Compiling collada-dom..."
-        cd "${TMP_DIR}/collada-dom"
-        mkdir -p build
-        cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
-        make -j4
-        print_status "Installing collada-dom..."
-        sudo make install
     fi
     if yes_no_question "(Re-)Install PCL (master branch) from source system-wide?"
     then
