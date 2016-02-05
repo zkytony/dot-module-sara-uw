@@ -246,7 +246,20 @@ fi
 ## -------------------------------------------------------------
 print_header "Installing Morse"
 MORSE_DIR="/opt/sara_morse"
-if yes_no_question "(Re-)Install Morse?"
+# Check whether to install
+INSTALL_MORSE=""
+if [ -d $MORSE_DIR ]
+then
+    print_status "Morse is already installed."
+    print_info "If you wish to force re-install, delete ${MORSE_DIR}."
+else
+    if yes_no_question "Install Morse?"
+    then
+        $INSTALL_MORSE=1
+    fi
+fi
+# Install
+if [ -n "$INSTALL_MORSE" ]
 then
     print_status "Installing Morse Ubuntu dependencies..."
     # NOTE!!!!!
