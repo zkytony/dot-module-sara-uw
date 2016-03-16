@@ -31,7 +31,8 @@ fi
 print_header "Installing required source packages"
 if dot_is_min_ubuntu_version 15.10
 then
-    print_warning "You are running Ubuntu >=15.10. Some ROS dependencies (collada-dom, PCL) must be installed from source!"
+    print_warning "You are running Ubuntu >=15.10."
+    print_warning "Some ROS dependencies (collada-dom, PCL) must be installed from source."
     if [ -f /usr/lib/libcollada-dom*-dp.so ]
     then
         print_status "collada-dom is already installed."
@@ -87,6 +88,9 @@ then
             sudo make install
         fi
     fi
+else
+    print_status "You are running Ubuntu <15.10."
+    print_status "All ROS dependencies are available as packages."
 fi
 
 
@@ -100,22 +104,15 @@ then
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
     sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
     sudo apt-get update
-    # Installing required packages to resolve dependency issues in 14.04.2 with ROS packages later
-    print_status "Installing required Ubuntu packages..."
-    sudo apt-get install libgl1-mesa-dev-lts-utopic
     #
-    #print_status "Installing ROS packages..."
-    #sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
-    exit 1
-    # #
-    # print_status "Installing rosdep..."
-    # if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]
-    # then
-    #     rm /etc/ros/rosdep/sources.list.d/20-default.list
-    # fi
-    # rosdep init
-    # # Done!
-    # print_status "Done!"
+    print_status "Installing ROS packages..."
+    sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
+    #
+    print_status "Updating rosdep..."
+    sudo rosdep init > /dev/null || true  # Will fail if already inited
+    sudo rosdep update
+    # Done!
+    print_status "Done!"
 else
     print_warning "You are not running Ubuntu 14.04 Trusty - ROS must be installed from sources."
     if yes_no_question "(Re-)Install ROS from sources?"
