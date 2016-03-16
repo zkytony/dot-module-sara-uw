@@ -254,7 +254,7 @@ then
 else
     if yes_no_question "Install Morse?"
     then
-        $INSTALL_MORSE=1
+        INSTALL_MORSE=1
     fi
 fi
 # Install
