@@ -92,18 +92,19 @@ fi
 
 ## -------------------------------------------------------------
 print_header "Installing ROS"
-if [ "$(lsb_release -cs)" == "trusty" ]
+if dot_is_ubuntu_codename "trusty"
 then
-    print_status "Installing ROS using Ubuntu Trusty packages."
-    print_error "Installation using packages has been temporarily disabled."
-    print_error "If you can test it, you should enable it and send a PR."
-    exit 1
-    # print_status "Adding ROS repositories..."
-    # sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
-    # wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add -
-    # apt-get update
-    # #
-    # print_status "Installing ROS packages..."
+    print_status "You are running Ubuntu 14.04 Trusty - ROS will be installed from Ubuntu packages."
+    #
+    print_status "Adding ROS repositories..."
+    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
+    sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
+    apt-get update
+    # Installing required packages to resolve dependency issues
+    print_status "Installing required Ubuntu packages..."
+    sudo apt-get install libgl1-mesa-dev-lts-utopic
+    #
+    #print_status "Installing ROS packages..."
     # sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
     # #
     # print_status "Installing rosdep..."
@@ -115,7 +116,7 @@ then
     # # Done!
     # print_status "Done!"
 else
-    print_warning "You are not running Ubuntu 14.04 Trusty."
+    print_warning "You are not running Ubuntu 14.04 Trusty - ROS must be installed from sources."
     if yes_no_question "(Re-)Install ROS from sources?"
     then
         # rosdep
