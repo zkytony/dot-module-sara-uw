@@ -98,7 +98,9 @@ fi
 print_header "Installing ROS"
 if dot_is_ubuntu_codename "trusty"
 then
-    print_status "You are running Ubuntu 14.04 Trusty - ROS will be installed from Ubuntu packages."
+    print_status "You are running Ubuntu 14.04 Trusty."
+    print_status "ROS will be installed from Ubuntu packages.\n"
+
     #
     print_status "Adding ROS repositories..."
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -114,7 +116,8 @@ then
     # Done!
     print_status "Done!"
 else
-    print_warning "You are not running Ubuntu 14.04 Trusty - ROS must be installed from sources."
+    print_warning "You are not running Ubuntu 14.04 Trusty."
+    print_warning "ROS must be installed from sources.\n"
     if yes_no_question "(Re-)Install ROS from sources?"
     then
         # rosdep
