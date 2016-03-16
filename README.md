@@ -7,6 +7,8 @@ Installation has been tested for Ubuntu 14.04.1 and 15.10. There are known depen
 
 ## Installation
 
+0. Make sure `git` is installed on your system
+
 1. Install the [main dot package](https://github.com/pronobis/dot):
     ```
     git clone https://github.com/pronobis/dot.git ~/.dot; ~/.dot/install.sh
