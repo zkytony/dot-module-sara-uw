@@ -24,9 +24,9 @@ github_user=${github_info#Hi }
 github_user=${github_user%%! You*}
 if [ -z "$github_user" ]
 then
-    print_error "Could not connect to GitHub."
-    print_error "GitHub access is most likely not configured on this machine."
-    print_error "Make sure the SSH key is added to GitHub settings or use SSH agent forwarding."
+    print_warning "Could not connect to GitHub."
+    print_warning "GitHub access is most likely not configured on this machine."
+    print_warning "Make sure the SSH key is added to GitHub settings or use SSH agent forwarding."
     print_error "Your won't be able to access SARA packages. Aborting!"
     exit 1
 fi
