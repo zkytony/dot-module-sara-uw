@@ -110,7 +110,7 @@ then
     #
     print_status "Updating rosdep..."
     sudo rosdep init > /dev/null || true  # Will fail if already inited
-    sudo rosdep update
+    rosdep update
     # Done!
     print_status "Done!"
 else
