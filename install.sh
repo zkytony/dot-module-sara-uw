@@ -17,6 +17,23 @@ print_info "SARA_ROOT is set to: ${SARA_ROOT}"
 
 
 ## -------------------------------------------------------------
+print_header "Verifying GitHub access"
+# Detect github username
+github_info=$(ssh git@github.com 2>&1 | grep -G "Hi .*! You've successfully authenticated, but GitHub does not provide shell access.")
+github_user=${github_info#Hi }
+github_user=${github_user%%! You*}
+if [ -z "$github_user" ]
+then
+    print_error "Could not connect to GitHub."
+    print_error "GitHub access is most likely not configured on this machine."
+    print_error "Make sure the SSH key is added to GitHub settings or use SSH agent forwarding."
+    print_error "Your won't be able to access SARA packages. Aborting!"
+    exit 1
+fi
+print_status "Your GitHub username has been identified as: $github_user"
+
+
+## -------------------------------------------------------------
 print_header "Installing required Ubuntu system packages"
 if dot_check_packages build-essential ccache cmake python-setuptools python3-setuptools whiptail
 then
@@ -329,18 +346,7 @@ cp "$DOT_MODULE_DIR/rosinstall/${rifile}" "$SARA_ROOT/sara_ws/${rifile}"
 
 ## -------------------------------------------------------------
 print_header "Updating repositories to use user's forks"
-# Detect github username
-github_info=$(ssh git@github.com 2>&1 | grep -G "Hi .*! You've successfully authenticated, but GitHub does not provide shell access.")
-github_user=${github_info#Hi }
-github_user=${github_user%%! You*}
-if [ -z "$github_user" ]
-then
-    print_error "Your github username could not be identified."
-    print_error "Your won't be able to access SARA packages. Aborting!"
-    exit 1
-fi
 print_status "Your GitHub username has been identified as: $github_user"
-#
 use_personal_forks=""
 if yes_no_question "Have you created your own forks of all SARA repositories for user $github_user?"
 then
