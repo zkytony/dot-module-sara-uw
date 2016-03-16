@@ -99,13 +99,14 @@ then
     print_status "Adding ROS repositories..."
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
     sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
-    apt-get update
-    # Installing required packages to resolve dependency issues
+    sudo apt-get update
+    # Installing required packages to resolve dependency issues in 14.04.2 with ROS packages later
     print_status "Installing required Ubuntu packages..."
     sudo apt-get install libgl1-mesa-dev-lts-utopic
     #
     #print_status "Installing ROS packages..."
-    # sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
+    #sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
+    exit 1
     # #
     # print_status "Installing rosdep..."
     # if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]
