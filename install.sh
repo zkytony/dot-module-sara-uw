@@ -19,7 +19,7 @@ print_info "SARA_ROOT is set to: ${SARA_ROOT}"
 ## -------------------------------------------------------------
 print_header "Verifying GitHub access"
 # Detect github username
-github_info=$(ssh git@github.com 2>&1 || true | grep -G "Hi .*! You've successfully authenticated, but GitHub does not provide shell access." || true)
+github_info=$(ssh git@github.com 2>&1 | grep -G "Hi .*! You've successfully authenticated, but GitHub does not provide shell access." || true)
 github_user=${github_info#Hi }
 github_user=${github_user%%! You*}
 if [ -z "$github_user" ]
