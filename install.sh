@@ -30,6 +30,7 @@ then
     print_error "Your won't be able to access SARA packages. Aborting!"
     exit 1
 fi
+print_status "GitHub access configured properly."
 print_status "Your GitHub username has been identified as: $github_user"
 
 
