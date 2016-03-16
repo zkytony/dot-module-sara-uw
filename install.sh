@@ -270,7 +270,7 @@ then
     # default and might mess something up. It's better to
     # install numpy manually using pip in that case.
     # NOTE!!!!!
-    if dot_check_packages cmake git zlib1g-dev libyaml-dev blender python3-dev libpython3-dev python3-setuptools python3-yaml python3-netifaces
+    if dot_check_packages cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces
     then
         print_status "All Ubuntu dependencies are already installed."
     else
@@ -315,7 +315,7 @@ do
     n=${n%%.rosinstall}
     configs="$configs $i $n"
 done
-rifile=$(whiptail --title "Select SARA System Setup" --menu "" 20 50 10 ${configs} 3>&2 2>&1 1>&3)
+rifile=$(whiptail --title "Select SARA System Setup" --menu "" 20 50 10 ${configs} 3>&2 2>&1 1>&3 || true)
 unset configs
 if [ -z "$rifile" ]
 then
