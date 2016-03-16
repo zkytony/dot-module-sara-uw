@@ -9,19 +9,19 @@ Installation has been tested for Ubuntu 14.04.1 and 15.10. There are known depen
 
 1. Install the [main dot package](https://github.com/pronobis/dot):
     ```
-    git clone git@github.com:pronobis/dot.git ~/.dot; cd ~/.dot; ./install.sh
+    git clone https://github.com/pronobis/dot.git ~/.dot; ~/.dot/install.sh
     ```
 
-2. Re-login.
+2. Re-login
 
-3. Download this package:
+3. Download this module:
     ```
     dot-get add git@github.com:pronobis/dot-module-sara-uw.git
     ```
 
-4. If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`.
+4. If you wish, you can now modify the path where sara stuff will be installed in `sara_root.conf`
 
-5. Install this package as user
+5. Install this module:
     ```
     cd ~/.dot/modules/50_dot-module-sara-uw; ./install.sh
     ```
@@ -32,4 +32,4 @@ export AWS_ACCESS_KEY=<access_key>
 export AWS_SECRET_KEY=<secret_key>
     ```
 
-7. Now, re-login and chose the system you want using the `sys` command.
+7. Now, re-login and choose the system you want using the `sys` command
