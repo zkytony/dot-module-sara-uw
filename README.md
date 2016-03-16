@@ -34,7 +34,7 @@ Before you begin the installation, if you are planning to develop your own code 
     During the installation, you will be asked several questions. Follow these instructions:
     - Do not install ROS Java, unless explicitly instructed to do so.
     - When asked, choose the appropriate SARA system setup. If you are installing on a desktop machine, choose `sara_uw_desktop.rosinstall` (choose this if unsure). If you are installing on an Amazon EC2 machine, choose `sara_uw_ec2.rosinstall`. If you are installing ON THE ROBOT itself, choose `sara_uw_robot.rosinstall`.
-    - If you have your own forks of the SARA repos, make sure to answer Yes to the question "Have you created your own forks of all SARA repositories for user <your-github-username>?"
+    - If you have your own forks of the SARA repos, make sure to answer Yes to the question "Have you created your own forks of all SARA repositories for user \<your-github-username>?"
 
 8. In order to use EC2 API tools, you need to add your personal keys to your `~/.bashrc`:
     ```
