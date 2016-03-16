@@ -49,4 +49,5 @@ export AWS_SECRET_KEY=<secret_key>
 11. Test the installation by running:
     * Morse simulator in one console: `roslaunch sara_uw_morse simple.launch`
     * RViz in another console: `roslaunch sara_uw_visualization robot.launch`
-    The simulator and RViz should start. Once the simulator starts (can take a while), you should be able to control the robot in the simulator with arrow keys and see the corresponding sensory output in RViz.
+
+    The simulator and RViz should start. Once the simulator starts (can take a while), you should be able to control the robot in the simulator with the arrow keys and see the corresponding sensory output in RViz.
