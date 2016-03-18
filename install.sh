@@ -270,8 +270,22 @@ MORSE_DIR="/opt/sara_morse"
 INSTALL_MORSE=""
 if [ -d $MORSE_DIR ]
 then
-    print_status "Morse is already installed."
-    print_info "If you wish to force re-install, delete ${MORSE_DIR}."
+    # Check if morse binary exists.
+    if [ ! -f "${MORSE_DIR}/bin/morse" ]
+    then
+	print_status "Previous Morse installation corrupted."
+    else
+	print_status "Morse is already installed."
+    fi
+
+    if yes_no_question "Re-install Morse?"
+    then
+	print_status "Removing ${MORSE_DIR}."
+	sudo rm -rf $MORSE_DIR
+	INSTALL_MORSE=1
+    else
+	print_info "If you wish to force re-install, delete ${MORSE_DIR}."
+    fi
 else
     if yes_no_question "Install Morse?"
     then
