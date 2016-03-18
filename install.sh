@@ -273,14 +273,14 @@ then
     # Check if morse binary exists.
     if [ ! -f "${MORSE_DIR}/bin/morse" ]
     then
-	print_status "Previous Morse installation corrupted."
+	print_warning "Previous Morse installation corrupted."
     else
 	print_status "Morse is already installed."
     fi
 
     if yes_no_question "Re-install Morse?"
     then
-	print_status "Removing ${MORSE_DIR}."
+	print_info "Removing ${MORSE_DIR}."
 	sudo rm -rf $MORSE_DIR
 	INSTALL_MORSE=1
     else
