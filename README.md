@@ -3,7 +3,7 @@ SARA Project dot module.
 
 ## Pre-Install notes
 
-Installation has been tested for Ubuntu 14.04.1 and 15.10. There are known dependency issues for Ubuntu 14.04.2 involving `libcheese`.
+Installation has been tested for Ubuntu 14.04.3 and 15.10. There are known dependency issues for Ubuntu 14.04.2 involving `libcheese`.
 
 ## Installation
 
