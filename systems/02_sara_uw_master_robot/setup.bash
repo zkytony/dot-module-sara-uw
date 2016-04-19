@@ -19,7 +19,7 @@ export LD_LIBRARY_PATH=/opt/MIRA/lib:${LD_LIBRARY_PATH}
 export PATH=/opt/MIRA/bin:${PATH}
 export MIRA_PATH=/opt/MIRA-commercial:${MIRA_PATH}
 export LD_LIBRARY_PATH=/opt/MIRA-commercial/lib:${LD_LIBRARY_PATH}
-export MIRA_PATH=${SARA_ROOT}/sara_ws/src/sara_scitos/sara_mira:${MIRA_PATH}
+export MIRA_PATH=${SARA_ROOT}/sara_ws/src:${MIRA_PATH}
 
 # Network params detection
 function get_ip
