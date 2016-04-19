@@ -385,11 +385,12 @@ print_header "Installing SARA packages"
 if [ -f /opt/MIRA/scripts/mirabash ]
 then
     print_status "Detected MIRA. Configuring MIRA environment..."
-    export MIRA_PATH=/opt/MIRA:/opt/MIRA-commercial
+    export MIRA_PATH=/opt/MIRA
     export LD_LIBRARY_PATH=/opt/MIRA/lib:${LD_LIBRARY_PATH}
     export PATH=/opt/MIRA/bin:${PATH}
     export MIRA_PATH=/opt/MIRA-commercial:${MIRA_PATH}
     export LD_LIBRARY_PATH=/opt/MIRA-commercial/lib:${LD_LIBRARY_PATH}
+    export MIRA_PATH=${SARA_ROOT}/sara_ws/src/sara_scitos/sara_mira:${MIRA_PATH}
     source /opt/MIRA/scripts/mirabash
 fi
 #
