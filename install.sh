@@ -344,7 +344,7 @@ then
     make install
     print_status "Checking MORSE installation..."
     export PATH="${DOT_MODULE_DIR}/opt/morse/bin:$PATH"
-    export PYTHONPATH="{DOT_MODULE_DIR}/opt/morse/lib/python3/dist-packages:$PYTHONPATH"
+    export PYTHONPATH="${DOT_MODULE_DIR}/opt/morse/lib/python3/dist-packages:$PYTHONPATH"
     $MORSE_DIR/bin/morse check
     # Deactivate the virtualenv
     deactivate
