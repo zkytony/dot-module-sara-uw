@@ -265,7 +265,7 @@ fi
 
 ## -------------------------------------------------------------
 print_header "Installing Morse"
-MORSE_DIR="/opt/sara_morse"
+MORSE_DIR="${DOT_MODULE_DIR}/opt/morse"
 # Check whether to install
 INSTALL_MORSE=""
 if [ -d $MORSE_DIR ]
@@ -295,41 +295,59 @@ if [ -n "$INSTALL_MORSE" ]
 then
     print_status "Installing Morse Ubuntu dependencies..."
     # NOTE!!!!!
-    # python3-numpy should be a dependency below, however
-    # on 15.10 it seems to install Python 3.5 which is not
+    # python3-numpy should be a dependency also for 15.10,
+    # however it seems to install Python 3.5 which is not
     # default and might mess something up. It's better to
     # install numpy manually using pip in that case.
     # NOTE!!!!!
-    if dot_check_packages cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces
+    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev"
+    # Version dependent packages
+    if dot_is_min_ubuntu_version 14.10
+    then
+        package_list="${package_list} virtualenv python3-virtualenv"
+    else
+        package_list="${package_list} python-virtualenv python3-numpy"
+    fi
+    if dot_check_packages $package_list
     then
         print_status "All Ubuntu dependencies are already installed."
     else
         dot_install_packages $DOT_NOT_INSTALLED
         print_status "Done!"
     fi
-    print_status "Creating Morse directory structure in ${MORSE_DIR}..."
-    sudo mkdir -p ${MORSE_DIR}
-    sudo chown ${USER} ${MORSE_DIR}
-    mkdir ${MORSE_DIR}/tmp
-    mkdir ${MORSE_DIR}/opt
-    print_status "Creating bash source file..."
-    cat > ${MORSE_DIR}/setup.bash << EOF
-export PATH=${MORSE_DIR}/bin:\$PATH
-export PYTHONPATH=${MORSE_DIR}/lib/python3/dist-packages:\$PYTHONPATH
-EOF
-    source ${MORSE_DIR}/setup.bash
-    print_status "Downloading and installing basic ROS packages in Python 3..."
-    sudo pip3 install -U rosdep rosinstall_generator wstool rosinstall
-    print_status "Downloading and installing Morse..."
-    cd ${MORSE_DIR}/tmp
-    git clone https://github.com/pronobis/morse.git
-    cd ${MORSE_DIR}/tmp/morse
+    print_status "Installing basic ROS packages in a virtualenv for Python 3..."
+    mkdir -p "$HOME/.virtualenv"
+    cd "$HOME/.virtualenv"
+    # Allow the vitual environments to use the system-wide packages
+    virtualenv sara_morse -p /usr/bin/python3 --system-site-packages
+    . "$HOME/.virtualenv/sara_morse/bin/activate"
+    dot_install_pip3 rosdep
+    dot_install_pip3 rosinstall_generator
+    dot_install_pip3 wstool
+    dot_install_pip3 rosinstall
+    print_status "Downloading Morse..."
+    if [ -d "${TMP_DIR}/morse/.git" ]
+    then
+        cd "${TMP_DIR}/morse"
+        git pull --recurse-submodules origin master
+        git submodule update --recursive
+        git branch -u origin/master master
+    else
+        rm -rf "${TMP_DIR}/morse"
+        git clone --recursive https://github.com/pronobis/morse.git "${TMP_DIR}/morse"
+    fi
+    print_status "Installing Morse..."
+    cd "${TMP_DIR}/morse"
     mkdir -p build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=${MORSE_DIR} -DPYMORSE_SUPPORT=ON -DBUILD_ROS_SUPPORT=ON -DCMAKE_BUILD_TYPE=Release ..
     make install
     print_status "Checking MORSE installation..."
+    export PATH="${DOT_MODULE_DIR}/opt/morse/bin:$PATH"
+    export PYTHONPATH="{DOT_MODULE_DIR}/opt/morse/lib/python3/dist-packages:$PYTHONPATH"
     $MORSE_DIR/bin/morse check
+    # Deactivate the virtualenv
+    deactivate
     # Done
     print_status "Done!"
 fi
