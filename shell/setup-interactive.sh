@@ -14,3 +14,8 @@ then
 else
     alias ros="cd $SARA_ROOT/ros_ws/src"
 fi
+
+## ---------------------------
+## Ping Aliases
+## ---------------------------
+alias ping-dube='ping 128.208.7.254'
