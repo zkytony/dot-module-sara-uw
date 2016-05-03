@@ -21,25 +21,30 @@ export MIRA_PATH=/opt/MIRA-commercial:${MIRA_PATH}
 export LD_LIBRARY_PATH=/opt/MIRA-commercial/lib:${LD_LIBRARY_PATH}
 export MIRA_PATH=${SARA_ROOT}/sara_ws/src:${MIRA_PATH}
 
-# Network params detection
-function get_ip
-{
-    /sbin/ifconfig $1 2> /dev/null | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'
-}
-
 # ROS networking
 export ROS_MASTER_URI=http://128.208.7.254:11311
 
-# Check IP in this order: eth0 eth1 wlan0 wlan1
-if [ -n "$(get_ip eth0)" ]
+# Get wired and wireless IP
+ip_wired=""
+ip_wireless=""
+for dev in $(ls /sys/class/net/)
+do
+    # Consider only real devices that are up
+    if [ -e /sys/class/net/$dev/device ] && [ "$(cat /sys/class/net/$dev/operstate)" == "up" ]
+    then
+        if [ -e /sys/class/net/$dev/wireless ]
+        then
+            ip_wireless=$(/sbin/ifconfig $dev 2> /dev/null | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
+        else
+            ip_wired=$(/sbin/ifconfig $dev 2> /dev/null | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
+        fi
+    fi
+done
+
+# Set ROS hostname, prefer wired
+if [ -n "$ip_wired" ]
 then
-    export ROS_HOSTNAME="$(get_ip eth0)"
-elif [ -n "$(get_ip eth1)" ]
-then
-    export ROS_HOSTNAME="$(get_ip eth1)"
-elif [ -n "$(get_ip wlan0)" ]
-then
-    export ROS_HOSTNAME="$(get_ip wlan0)"
+    export ROS_HOSTNAME="$ip_wired"
 else
-    export ROS_HOSTNAME="$(get_ip wlan1)"
+    export ROS_HOSTNAME="$ip_wireless"
 fi
