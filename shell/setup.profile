@@ -18,4 +18,4 @@ export PATH="${DOT_MODULE_DIR}/opt/ec2-api-tools/bin:$PATH"
 
 # Paths to Morse
 export PATH="${DOT_MODULE_DIR}/opt/morse/bin:$PATH"
-export PYTHONPATH="${DOT_MODULE_DIR}/opt/morse/lib/python3/dist-packages:$PYTHONPATH"
+export PYTHONPATH="${DOT_MODULE_DIR}/opt/morse/lib/python3.4/site-packages:${DOT_MODULE_DIR}/opt/morse/lib/python3/dist-packages:$PYTHONPATH"
