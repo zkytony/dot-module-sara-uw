@@ -2,10 +2,12 @@
 
 SARA Project dot module.
 
+
 ## Pre-Install notes
 
 Installation has been tested for Ubuntu 14.04.3 and 15.10. There are
 known dependency issues for Ubuntu 14.04.2 involving `libcheese`.
+
 
 ## Installation
 
@@ -14,7 +16,7 @@ own code at any time in the future, create your own forks of all the
 SARA repos you were given access to. The installer will setup these
 forks for you automatically.
 
-1. Make sure `git` is installed on your system
+1. Make sure `git` is installed on your system.
 
 1. Make sure that you have access to the SARA git repositories from
    the system you are running the installer on.
