@@ -72,7 +72,7 @@ then
             mkdir -p build
             cd build
             cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
-            make -j4
+            dot_parallel_make
             print_status "Installing collada-dom..."
             sudo make install
         fi
@@ -99,7 +99,7 @@ then
             cd build
             # Install to /usr/local
             cmake .. -DBUILD_apps=ON -DPCL_QT_VERSION=4
-            make -j4
+            dot_parallel_make
             print_status "Installing PCL..."
             sudo make install
         fi
