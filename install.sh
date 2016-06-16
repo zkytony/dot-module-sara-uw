@@ -66,8 +66,7 @@ then
                 print_status "Done!"
             fi
             print_status "Downloading collada-dom (master branch)..."
-            rm -rf "${TMP_DIR}/collada-dom"
-            git clone --recursive https://github.com/rdiankov/collada-dom.git "${TMP_DIR}/collada-dom"
+            dot_git_clone_or_update "${TMP_DIR}/collada-dom" "https://github.com/rdiankov/collada-dom.git" "master"
             print_status "Compiling collada-dom..."
             cd "${TMP_DIR}/collada-dom"
             mkdir -p build
@@ -93,8 +92,7 @@ then
                 print_status "Done!"
             fi
             print_status "Downloading PCL (master branch)..."
-            rm -rf "${TMP_DIR}/pcl"
-            git clone --recursive https://github.com/PointCloudLibrary/pcl.git "${TMP_DIR}/pcl"
+            dot_git_clone_or_update "${TMP_DIR}/pcl" "https://github.com/PointCloudLibrary/pcl.git" "master"
             print_status "Compiling PCL..."
             cd "${TMP_DIR}/pcl"
             mkdir -p build
