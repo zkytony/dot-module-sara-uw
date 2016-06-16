@@ -85,7 +85,7 @@ then
         if yes_no_question "Install PCL (master branch) from source system-wide?"
         then
             print_status "Installing PCL Ubuntu dependencies..."
-            if dot_check_packages libflann-dev libvtk5-dev libvtk-java python-vtk libvtk5-qt4-dev libboost-dev libboost-thread-dev libboost-date-time-dev libboost-iostreams-dev
+            if dot_check_packages libflann-dev libvtk5-dev libvtk-java python-vtk libvtk5-qt4-dev libboost-dev libboost-thread-dev libboost-date-time-dev libboost-iostreams-dev libeigen3-dev
             then
                 print_status "All Ubuntu dependencies are already installed."
             else
