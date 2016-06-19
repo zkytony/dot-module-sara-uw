@@ -136,6 +136,15 @@ else
     print_warning "ROS must be installed from sources.\n"
     if yes_no_question "(Re-)Install ROS from sources?"
     then
+        # libogre is not installed by rosdep on 16.04
+        print_status "Installing Ubuntu dependencies..."
+        if dot_check_packages libogre-1.9-dev
+        then
+            print_status "All required Ubuntu dependencies are already installed."
+        else
+            dot_install_packages $DOT_NOT_INSTALLED
+            print_status "Done!"
+        fi
         # rosdep
         print_status "Installing rosdep and wstool..."
         sudo pip install -U rosdep rosinstall_generator wstool rosinstall
