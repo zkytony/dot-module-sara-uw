@@ -233,9 +233,9 @@ fi
 
 ## -------------------------------------------------------------
 print_header "Installing ROSJava packages"
+ROSJAVA_INSTALLED=""
 if yes_no_question "(Re-)Install ROS Java (from sources)?"
 then
-    INSTALL_ROSJAVA=1
     if [ -f "$SARA_ROOT/rosjava_ws/src/.rosinstall" ]
     then
         print_status "Existing installation exists. Updating..."
@@ -267,6 +267,10 @@ then
     unset ROS_MAVEN_REPOSITORY
     catkin_make -DCMAKE_BUILD_TYPE=Release
     # Done
+    ROSJAVA_INSTALLED=1
+    print_status "Done!"
+fi
+
     print_status "Done!"
 fi
 
@@ -432,7 +436,7 @@ cd "$SARA_ROOT/sara_ws"
 wstool init -j4 "$SARA_ROOT/sara_ws/src" "$SARA_ROOT/sara_ws/${rifile}"
 #
 print_status "Checking for missing dependencies..."
-if [ -n "${INSTALL_ROSJAVA}" ]
+if [ -n "$ROSJAVA_INSTALLED" ]
 then
     source "$SARA_ROOT/rosjava_ws/devel/setup.bash"
 else
