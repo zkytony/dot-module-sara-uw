@@ -303,7 +303,7 @@ if [ -n "$INSTALL_BLENDER" ]
 then
     # Add PPA
     print_status "Adding PPA..."
-    sudo apt-add-repository ppa:thomas-schiex/blender
+    sudo apt-add-repository -y ppa:thomas-schiex/blender
     print_status "Installing package..."
     # Force-update package list
     DOT_MODULE_PACKAGES_UPDATED=""
