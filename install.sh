@@ -320,7 +320,7 @@ print_header "Installing Morse"
 MORSE_DIR="${DOT_MODULE_DIR}/opt/morse"
 # Check whether to install
 INSTALL_MORSE=""
-if [ -n "$BLENDER_INSTALLED"]
+if [ -n "$BLENDER_INSTALLED" ]
 then
     if [ -d "$MORSE_DIR" ]
     then
