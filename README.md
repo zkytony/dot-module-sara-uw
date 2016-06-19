@@ -48,6 +48,8 @@ forks for you automatically.
     Follow these instructions:
 
     * Do not install ROS Java, unless explicitly instructed to do so.
+    * If asked whether to install Blender, say yes. Recent Blender version
+      is need for the Morse simulator to work correctly.
     * When asked, choose the appropriate SARA system setup. If you are
       installing on a desktop machine, choose
       `sara_uw_desktop.rosinstall` (choose this if unsure). If you are
