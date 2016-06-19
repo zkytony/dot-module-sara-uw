@@ -271,6 +271,46 @@ then
     print_status "Done!"
 fi
 
+
+## -------------------------------------------------------------
+print_header "Installing Blender"
+BLENDER_INSTALLED=""
+INSTALL_BLENDER=""
+MIN_BLENDER_VERSION="2.77"
+# Check
+if dot_get_installed_package_version blender
+then
+    if dot_versions_ge $DOT_PACKAGE_VERSION $MIN_BLENDER_VERSION
+    then
+        print_status "Blender $DOT_PACKAGE_VERSION is already installed."
+        BLENDER_INSTALLED=1
+    else
+        print_warning "Blender is installed, but version is <= ${MIN_BLENDER_VERSION}. Recent Blender version is needed for the Morse simulator."
+        if yes_no_question "Update Blender to >= $MIN_BLENDER_VERSION?"
+        then
+            INSTALL_BLENDER=1
+        fi
+    fi
+else
+    print_warning "Blender is NOT installed. Recent Blender version is needed for the Morse simulator."
+    if yes_no_question "Install Blender >= $MIN_BLENDER_VERSION?"
+    then
+        INSTALL_BLENDER=1
+    fi
+fi
+# Install
+if [ -n "$INSTALL_BLENDER" ]
+then
+    # Add PPA
+    print_status "Adding PPA..."
+    sudo apt-add-repository ppa:thomas-schiex/blender
+    print_status "Installing package..."
+    # Force-update package list
+    DOT_MODULE_PACKAGES_UPDATED=""
+    # Install the packages
+    dot_install_packages blender
+    # Done
+    BLENDER_INSTALLED=1
     print_status "Done!"
 fi
 
@@ -280,27 +320,32 @@ print_header "Installing Morse"
 MORSE_DIR="${DOT_MODULE_DIR}/opt/morse"
 # Check whether to install
 INSTALL_MORSE=""
-if [ -d $MORSE_DIR ]
+if [ -n "$BLENDER_INSTALLED"]
 then
-    # Check if morse binary exists.
-    if [ ! -f "${MORSE_DIR}/bin/morse" ]
+    if [ -d "$MORSE_DIR" ]
     then
-        print_warning "Previous Morse installation corrupted."
-    else
-        print_status "Morse is already installed."
-    fi
+        # Check if morse binary exists.
+        if [ ! -f "${MORSE_DIR}/bin/morse" ]
+        then
+            print_warning "Previous Morse installation corrupted."
+        else
+            print_status "Morse is already installed."
+        fi
 
-    if yes_no_question "Re-install Morse (WARNING: this will remove ${MORSE_DIR})?"
-    then
-        print_info "Removing ${MORSE_DIR}."
-        sudo rm -rf $MORSE_DIR
-        INSTALL_MORSE=1
+        if yes_no_question "Re-install Morse (WARNING: this will remove ${MORSE_DIR})?"
+        then
+            print_info "Removing ${MORSE_DIR}."
+            rm -rf $MORSE_DIR
+            INSTALL_MORSE=1
+        fi
+    else
+        if yes_no_question "Install Morse?"
+        then
+            INSTALL_MORSE=1
+        fi
     fi
 else
-    if yes_no_question "Install Morse?"
-    then
-        INSTALL_MORSE=1
-    fi
+    print_warning "Blender >= $MIN_BLENDER_VERSION is not installed, skipping Morse installation."
 fi
 # Install
 if [ -n "$INSTALL_MORSE" ]
