@@ -308,7 +308,7 @@ then
     # Force-update package list
     DOT_MODULE_PACKAGES_UPDATED=""
     # Install the packages
-    dot_install_packages blender
+    dot_install_packages blender python3-numpy
     # Done
     BLENDER_INSTALLED=1
     print_status "Done!"
@@ -352,18 +352,17 @@ if [ -n "$INSTALL_MORSE" ]
 then
     print_status "Installing Morse Ubuntu dependencies..."
     # NOTE!!!!!
-    # python3-numpy should be a dependency also for 15.10,
-    # however it seems to install Python 3.5 which is not
+    # In 15.10 python3-numpy installs Python 3.5 which is not
     # default and might mess something up. It's better to
     # install numpy manually using pip in that case.
     # NOTE!!!!!
-    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev"
+    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev python3-numpy"
     # Version dependent packages
     if dot_is_min_ubuntu_version 14.10
     then
         package_list="${package_list} virtualenv python3-virtualenv"
     else
-        package_list="${package_list} python-virtualenv python3-numpy"
+        package_list="${package_list} python-virtualenv"
     fi
     if dot_check_packages $package_list
     then
