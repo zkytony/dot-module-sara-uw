@@ -47,6 +47,7 @@ fi
 
 
 ## -------------------------------------------------------------
+# Missing packages are installed from source in 15.04
 print_header "Installing required source packages"
 if dot_is_min_ubuntu_version 15.10 && dot_is_max_ubuntu_version 15.10
 then
@@ -106,7 +107,7 @@ then
         fi
     fi
 else
-    print_status "You are running Ubuntu <15.10."
+    print_status "You are NOT running Ubuntu 15.10."
     print_status "All ROS dependencies are available as packages."
 fi
 
