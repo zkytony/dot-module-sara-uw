@@ -48,7 +48,7 @@ fi
 
 ## -------------------------------------------------------------
 print_header "Installing required source packages"
-if dot_is_min_ubuntu_version 15.10
+if dot_is_min_ubuntu_version 15.10 && dot_is_max_ubuntu_version 15.10
 then
     print_warning "You are running Ubuntu >=15.10."
     print_warning "Some ROS dependencies (collada-dom, PCL) must be installed from source."
@@ -117,7 +117,6 @@ if dot_is_ubuntu_codename "trusty"
 then
     print_status "You are running Ubuntu 14.04 Trusty."
     print_status "ROS will be installed from Ubuntu packages.\n"
-
     #
     print_status "Adding ROS repositories..."
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -137,12 +136,22 @@ else
     print_warning "ROS must be installed from sources.\n"
     if yes_no_question "(Re-)Install ROS from sources?"
     then
+        # Fixes for 16.04
         if dot_is_min_ubuntu_version 16.04
         then
+            # The VTK6 in Xantal as of version 6.2.0+dfsg1-10build1 is buggy:
+            # https://bugs.launchpad.net/ubuntu/+source/vtk6/+bug/1573234
+            # There is a fix in a PPA until that is fixed
+            print_status "Installing fixed VTK6 from PPA..."
+            sudo apt-add-repository ppa:tully.foote/backports
+            # Force-update package list
+            DOT_MODULE_PACKAGES_UPDATED=""
+            # Install the packages
+            dot_install_packages libvtk6-dev vtk6
             # Some packages have different names in 16.04 and won't
             # be installed by rosdep
             print_status "Installing Ubuntu dependencies..."
-            if dot_check_packages libogre-1.9-dev python-wxgtk3.0 libcollada-dom2.4-dp-dev libpcl-dev
+            if dot_check_packages libogre-1.9-dev python-wxgtk3.0 libcollada-dom2.4-dp-dev libpcl-dev libproj-dev
             then
                 print_status "All required Ubuntu dependencies are already installed."
             else
