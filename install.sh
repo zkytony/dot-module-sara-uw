@@ -375,7 +375,7 @@ then
     print_status "Installing Morse Ubuntu dependencies..."
     # python3.5 - the new Blender in PPA is using Python 3.5 and we need to match
     #             the same version in Morse
-    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev python3-numpy python3.5"
+    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev python3-numpy python3.5 python3.5-dev"
     # Version dependent packages
     if dot_is_min_ubuntu_version 14.10
     then
