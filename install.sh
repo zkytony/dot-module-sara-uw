@@ -354,10 +354,11 @@ then
             print_status "Morse is already installed."
         fi
 
-        if yes_no_question "Re-install Morse (WARNING: this will remove ${MORSE_DIR})?"
+        if yes_no_question "Re-install Morse (WARNING: this will remove ${MORSE_DIR} and $HOME/.virtualenv/sara_morse)?"
         then
             print_info "Removing ${MORSE_DIR}."
             rm -rf $MORSE_DIR
+            rm -rf $HOME/.virtualenv/sara_morse
             INSTALL_MORSE=1
         fi
     else
