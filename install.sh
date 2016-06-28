@@ -78,7 +78,7 @@ then
             sudo make install
         fi
     fi
-    if [ -f /usr/local/lib/libpcl_features.so ]
+    if [ -f /usr/local/lib/libpcl_features.so ] || [ -f /usr/lib/x86_64-linux-gnu/libpcl_features.so.1.7 ]
     then
         print_status "PCL is already installed."
     else
