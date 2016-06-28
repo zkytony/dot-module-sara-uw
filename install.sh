@@ -373,12 +373,9 @@ fi
 if [ -n "$INSTALL_MORSE" ]
 then
     print_status "Installing Morse Ubuntu dependencies..."
-    # NOTE!!!!!
-    # In 15.10 python3-numpy installs Python 3.5 which is not
-    # default and might mess something up. It's better to
-    # install numpy manually using pip in that case.
-    # NOTE!!!!!
-    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev python3-numpy"
+    # python3.5 - the new Blender in PPA is using Python 3.5 and we need to match
+    #             the same version in Morse
+    package_list="cmake git zlib1g-dev libyaml-dev blender python3-dev python3-pip libpython3-dev python3-setuptools python3-yaml python3-netifaces python3-setuptools python3-pip python3-dev python3-numpy python3.5"
     # Version dependent packages
     if dot_is_min_ubuntu_version 14.10
     then
@@ -397,7 +394,8 @@ then
     mkdir -p "$HOME/.virtualenv"
     cd "$HOME/.virtualenv"
     # Allow the vitual environments to use the system-wide packages
-    virtualenv sara_morse -p /usr/bin/python3 --system-site-packages
+    # Use Python 3.5 since that is what is used by the new Blender from PPA
+    virtualenv sara_morse -p /usr/bin/python3.5 --system-site-packages
     . "$HOME/.virtualenv/sara_morse/bin/activate"
     dot_install_pip3 rosdep
     dot_install_pip3 rosinstall_generator
