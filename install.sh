@@ -137,14 +137,18 @@ else
     print_warning "ROS must be installed from sources.\n"
     if yes_no_question "(Re-)Install ROS from sources?"
     then
-        # libogre is not installed by rosdep on 16.04
-        print_status "Installing Ubuntu dependencies..."
-        if dot_check_packages libogre-1.9-dev
+        if dot_is_min_ubuntu_version 16.04
         then
-            print_status "All required Ubuntu dependencies are already installed."
-        else
-            dot_install_packages $DOT_NOT_INSTALLED
-            print_status "Done!"
+            # Some packages have different names in 16.04 and won't
+            # be installed by rosdep
+            print_status "Installing Ubuntu dependencies..."
+            if dot_check_packages libogre-1.9-dev python-wxgtk3.0 libcollada-dom2.4-dp-dev libpcl-dev
+            then
+                print_status "All required Ubuntu dependencies are already installed."
+            else
+                dot_install_packages $DOT_NOT_INSTALLED
+                print_status "Done!"
+            fi
         fi
         # rosdep
         print_status "Installing rosdep and wstool..."
@@ -177,8 +181,16 @@ else
         wstool update --delete-changed-uris -t "$SARA_ROOT/ros_ws/src"
         #
         print_status "Checking for missing dependencies..."
-        # The following will result in an error about rosdep in non-trusty etc. so we add || true
-        rosdep install --from-paths src -y -i -r --os ubuntu:trusty || true
+        # On 16.04 this will install python-vtk which will remove libpcl
+        # python-vtk6 is installed by libpcl-dev instead on 16.04
+        if dot_is_min_ubuntu_version 16.04
+        then
+            # The following will result in an error about rosdep in non-trusty etc. so we add || true
+            rosdep install --from-paths src -y -i -r --skip-keys=python-vtk --os ubuntu:trusty || true
+        else
+            # The following will result in an error about rosdep in non-trusty etc. so we add || true
+            rosdep install --from-paths src -y -i -r --os ubuntu:trusty || true
+        fi
         #
         print_status "Compiling..."
         # Use a clean environment to not have any dependencies
