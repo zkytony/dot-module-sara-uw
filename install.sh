@@ -403,16 +403,7 @@ then
     dot_install_pip3 wstool
     dot_install_pip3 rosinstall
     print_status "Downloading Morse..."
-    if [ -d "${TMP_DIR}/morse/.git" ]
-    then
-        cd "${TMP_DIR}/morse"
-        git pull --recurse-submodules origin master
-        git submodule update --recursive
-        git branch -u origin/master master
-    else
-        rm -rf "${TMP_DIR}/morse"
-        git clone --recursive https://github.com/pronobis/morse.git "${TMP_DIR}/morse"
-    fi
+    dot_git_clone_or_update "${TMP_DIR}/morse" "https://github.com/pronobis/morse.git" "master"
     print_status "Installing Morse..."
     cd "${TMP_DIR}/morse"
     mkdir -p build
