@@ -140,7 +140,7 @@ else
         # Fixes for 16.04
         if dot_is_min_ubuntu_version 16.04
         then
-            # The VTK6 in Xantal as of version 6.2.0+dfsg1-10build1 is buggy:
+            # The VTK6 in 16.04 as of version 6.2.0+dfsg1-10build1 is buggy:
             # https://bugs.launchpad.net/ubuntu/+source/vtk6/+bug/1573234
             # There is a fix in a PPA until that is fixed
             print_status "Installing fixed VTK6 from PPA..."
