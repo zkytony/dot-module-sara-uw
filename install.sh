@@ -17,6 +17,22 @@ print_info "SARA_ROOT is set to: ${SARA_ROOT}"
 
 
 ## -------------------------------------------------------------
+print_header "Installing user-local config files"
+# VNC client
+dot_link_config ".vnc/profiles/sara_uw_dube.vnc"
+dot_link_config ".vnc/profiles/sara_uw_ec2_sim.vnc"
+# Shortcuts
+dot_link_config ".local/share/applications/*.desktop"
+# SSH
+dot_prepend_section_to_config ".ssh/config" "# dot-module-sara-uw configuration begins here" "# dot-module-sara-uw configuration ends here"
+# Art
+dot_link_config ".local/share/icons/*.png"
+dot_link_config ".local/share/wallpapers/*.png"
+# Done
+print_status "Done!"
+
+
+## -------------------------------------------------------------
 print_header "Verifying GitHub access"
 # Detect github username
 github_info=$(ssh git@github.com 2>&1 | grep -G "Hi .*! You've successfully authenticated, but GitHub does not provide shell access." || true)
@@ -528,22 +544,6 @@ then
    # Done
    print_status "Done!"
 fi
-
-
-## -------------------------------------------------------------
-print_header "Installing user-local config files"
-# VNC client
-dot_link_config ".vnc/profiles/sara_uw_dube.vnc"
-dot_link_config ".vnc/profiles/sara_uw_ec2_sim.vnc"
-# Shortcuts
-dot_link_config ".local/share/applications/*.desktop"
-# SSH
-dot_prepend_section_to_config ".ssh/config" "# dot-module-sara-uw configuration begins here" "# dot-module-sara-uw configuration ends here"
-# Art
-dot_link_config ".local/share/icons/*.png"
-dot_link_config ".local/share/wallpapers/*.png"
-# Done
-print_status "Done!"
 
 
 ## -------------------------------------------------------------
