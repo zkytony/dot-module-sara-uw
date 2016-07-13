@@ -531,16 +531,6 @@ fi
 
 
 ## -------------------------------------------------------------
-print_header "Installing system-wide config files"
-# CUDA Initialization (harmless on systems without NVidia)
-dot_copy_config_sys "etc/init.d/cuda-init"
-dot_copy_config_sys "etc/rc2.d/S99cuda-init"
-sudo chmod a+x /etc/init.d/cuda-init
-# Done
-print_status "Done!"
-
-
-## -------------------------------------------------------------
 print_header "Installing user-local config files"
 # VNC client
 dot_link_config ".vnc/profiles/sara_uw_dube.vnc"
