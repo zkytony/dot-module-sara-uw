@@ -176,7 +176,7 @@ else
         print_status "Initializing workspace..."
         mkdir -p "$SARA_ROOT/ros_ws/src"
         cd "$SARA_ROOT/ros_ws"
-        rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera hokuyo_node joystick_drivers robot_localization octomap_ros octomap octomap_mapping octomap_rviz_plugins octomap_msgs --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
+        rosinstall_generator desktop perception navigation slam_gmapping audio_common openni2_launch robot_pose_publisher dynamixel_motor depthimage_to_laserscan yujin_ocs kobuki usb_cam rosbridge_suite openni_launch prosilica_camera hokuyo_node joystick_drivers robot_localization octomap_ros octomap octomap_mapping octomap_rviz_plugins octomap_msgs teb_local_planner --rosdistro indigo --deps --wet-only --tar > "$SARA_ROOT/ros_ws/sara_ros.rosinstall"
         # The true is needed in order to pass through an error that might happen when the tar package
         # versions are updated. Then wstool update will deal with that problem.
         # Those errors are normal and should be ignored.
@@ -187,6 +187,9 @@ else
         # https://github.com/OctoMap/octomap_rviz_plugins/commit/b4a5d30ac6178fbeba5020969783dfb9bf4fcdc3
         # we can just skip this step.
         wstool set octomap_rviz_plugins -y --version-new indigo-devel --git https://github.com/OctoMap/octomap_rviz_plugins.git -t "$SARA_ROOT/ros_ws/src"
+        # libg2o indigo version fails to compile on 16.04, but the kinetic version compiles
+        # libg2o is only needed by teb_local_planner
+        wstool set libg2o -y --version-new libg2o-release-release-kinetic-libg2o-2016.4.24-0 https://github.com/ros-gbp/libg2o-release/archive/release/kinetic/libg2o/2016.4.24-0.tar.gz -t "$SARA_ROOT/ros_ws/src"
         # Now, update
         wstool update --delete-changed-uris -t "$SARA_ROOT/ros_ws/src"
         #
