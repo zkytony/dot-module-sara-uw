@@ -342,6 +342,7 @@ then
     fi
 else
     print_warning "Blender is NOT installed. Recent Blender version is needed for the Morse simulator."
+    print_warning "NOTE: Blender and Morse are NOT needed on robots!"
     if yes_no_question "Install Blender >= $MIN_BLENDER_VERSION?"
     then
         INSTALL_BLENDER=1
