@@ -133,21 +133,29 @@ print_header "Installing ROS"
 if dot_is_ubuntu_codename "trusty"
 then
     print_status "You are running Ubuntu 14.04 Trusty."
-    print_status "ROS will be installed from Ubuntu packages.\n"
+    print_status "ROS Ubuntu packages will be used.\n"
     #
-    print_status "Adding ROS repositories..."
-    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
-    sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
-    sudo apt-get update
-    #
-    print_status "Installing ROS packages..."
-    sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
-    #
-    print_status "Updating rosdep..."
-    sudo rosdep init > /dev/null || true  # Will fail if already inited
-    rosdep update
-    # Done!
-    print_status "Done!"
+    if dot_get_installed_package_version ros-indigo-catkin ros-indigo-ros python-wstool
+    then
+        print_status "ROS Ubuntu packages are already installed."
+    else
+        if yes_no_question "Install ROS Ubuntu packages?"
+        then
+            print_status "Adding ROS repositories..."
+            sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
+            sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
+            sudo apt-get update
+            #
+            print_status "Installing ROS packages..."
+            sudo apt-get install ros-indigo-catkin ros-indigo-ros python-wstool
+            #
+            print_status "Updating rosdep..."
+            sudo rosdep init > /dev/null || true  # Will fail if already inited
+            rosdep update
+            # Done!
+            print_status "Done!"
+        fi
+    fi
 else
     print_warning "You are not running Ubuntu 14.04 Trusty."
     print_warning "ROS must be installed from sources.\n"
