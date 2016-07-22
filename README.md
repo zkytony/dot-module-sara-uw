@@ -48,14 +48,17 @@ forks for you automatically.
     Follow these instructions:
 
     * Do not install ROS Java, unless explicitly instructed to do so.
-    * If asked whether to install Blender, say yes. Recent Blender version
-      is need for the Morse simulator to work correctly.
+    * If asked whether to install Blender, say yes only if you need to run the
+      simulator on this machine. Recent Blender version is need for the Morse
+      simulator to work correctly. **DO NOT** install Blender or Morse on a
+      robot machine.
     * When asked, choose the appropriate SARA system setup. If you are
-      installing on a desktop machine, choose
-      `sara_uw_desktop.rosinstall` (choose this if unsure). If you are
-      installing on an Amazon EC2 machine, choose
-      `sara_uw_ec2.rosinstall`. If you are installing ON THE ROBOT
-      itself, choose `sara_uw_robot.rosinstall`.
+      installing on a desktop machine, choose `sara_uw_desktop.rosinstall`
+      (choose this if unsure). If you are installing on an Amazon EC2 machine,
+      choose `sara_uw_ec2.rosinstall`. If you are installing ON THE ROBOT
+      itself, choose `sara_uw_robot_dube.rosinstall` or
+      `sara_uw_robot_dube2.rosinstall` depending on which computer you are
+      installing.
     * If you have your own forks of the SARA repos, make sure to
       answer Yes to the question "Have you created your own forks of
       all SARA repositories for user \<your-github-username>?"
@@ -70,19 +73,18 @@ forks for you automatically.
 
 1. Re-login
 
-1. Choose the system configuration that you plan to use with the `sys`
-   command. Choose 'SARA Local' if you are running the system on your
-   machine only. Choose `SARA UW Master Robot` if you are running the
-   system on both the robot and your local machine and the robot is
-   the master. Choose `SARA UW DUB-E Setup` if you are running the
-   system directly on the robot.
+1. Choose the system configuration that you plan to use with the `sys` command.
+   Choose 'SARA Local' if you are running the system on your machine only.
+   Choose `SARA UW Master Robot` if you are running the system on both the robot
+   and your local machine and the robot is the master. Choose `SARA UW DUB-E
+   Setup` or `SARA UW DUB-E2 Setup` if you are running the system directly on
+   the robot.
 
-1. Test the installation by running:
+1. If you installed on a desktop machine, test the installation by running:
 
     * Morse simulator in one console: `roslaunch sara_uw_morse simple.launch`
     * RViz in another console: `roslaunch sara_uw_visualization robot.launch`
 
-    The simulator and RViz should start. Once the simulator starts
-    (can take a while), you should be able to control the robot in the
-    simulator with the arrow keys and see the corresponding sensory
-    input in RViz.
+    The simulator and RViz should start. Once the simulator starts (can take a
+    while), you should be able to control the robot in the simulator with the
+    arrow keys and see the corresponding sensory input in RViz.
